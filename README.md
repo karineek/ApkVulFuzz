@@ -134,9 +134,18 @@ adb devices -l
 ```
 git clone https://github.com/honeynet/droidbot.git
 cd droidbot
+
+python3 -m pip uninstall -y androguard
+python3 -m pip install "androguard>=3.4.0a1,<4"
+
 python3 -m pip install -e .
 ```
 You can read further on how to use this emulator: [https://github.com/honeynet/droidbot]   
+
+Then you can test with a valid APK:
+```
+python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+```
 
 ## Blackbox fuzzing
 
