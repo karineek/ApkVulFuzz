@@ -118,6 +118,13 @@ Check if it is created:
 emulator -list-avds
 ```
 
+And start the emulator:
+```
+emulator -avd test34 -no-window -no-audio -no-boot-anim -no-metrics -no-snapshot > /tmp/emulator.log 2>&1 &
+adb wait-for-device
+until [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do sleep 2; done
+adb devices -l
+```
 
 **5.** Install the simulator:
 
