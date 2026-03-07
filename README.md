@@ -102,6 +102,15 @@ Option            Description
 --human-readable  Print sizes in human readable format
 ```
 
+4. Install the simulator:
+
+```
+git clone https://github.com/honeynet/droidbot.git
+cd droidbot
+python3 -m pip install -e .
+```
+You can read further on how to use this emulator: [https://github.com/honeynet/droidbot]   
+
 ## Blackbox fuzzing
 
 Run:
