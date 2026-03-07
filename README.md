@@ -4,13 +4,13 @@ Fuzzing APK as binaries to hit vulnerabilities
 
 ## Installing a Simulator of APK
 
-1. Install pre-requirements
+**1.** Install pre-requirements
 ```
 sudo apt update
 sudo apt install -y python3 python3-pip openjdk-17-jdk unzip wget
 ```
   
-2.  Setup Android SDK root environment
+**2.** Setup Android SDK root environment
 ```
 
 mkdir -p "$HOME/android-sdk/cmdline-tools"
@@ -54,6 +54,53 @@ sdkmanager --sdk_root="$ANDROID_SDK_ROOT" \
   "system-images;android-34;google_apis;arm64-v8a"
 ```
 
+and then
+```
+sdkmanager "build-tools;34.0.0"
+```
+
+**3.** Check installation:
+
+```
+adb version
+sdkmanager --list | head
+avdmanager list target | head
+apkanalyzer --help | head
+```
+
+Which then returns something like this:
+```
+Android Debug Bridge version 1.0.41
+Version 37.0.0-14910828
+Installed as /users/kevenmen/android-sdk/platform-tools/adb
+Running on Linux 5.15.0-168-generic (x86_64)
+[=======================================] 100% Computing updates...             
+Installed packages:
+  Path                                        | Version | Description                                | Location                                   
+  -------                                     | ------- | -------                                    | -------                                    
+  build-tools;34.0.0                          | 34.0.0  | Android SDK Build-Tools 34                 | build-tools/34.0.0                         
+  emulator                                    | 36.4.9  | Android Emulator                           | emulator                                   
+  platform-tools                              | 37.0.0  | Android SDK Platform-Tools                 | platform-tools                             
+  platforms;android-34                        | 3       | Android SDK Platform 34                    | platforms/android-34                       
+  system-images;android-34;google_apis;x86_64 | 14      | Google APIs Intel x86_64 Atom System Image | system-images/android-34/google_apis/x86_64
+
+[=======================================] 100% Fetch remote repository...       
+Available Android targets:
+----------
+id: 1 or "android-34"
+     Name: Android API 34, extension level 7
+     Type: Platform
+     API level: 34
+     Revision: 3
+Verb must be one of: 
+
+Usage:
+apkanalyzer [global options] <subject> <verb> [options] <apk> [<apk2>]
+
+Option            Description                         
+------            -----------                         
+--human-readable  Print sizes in human readable format
+```
 
 ## Blackbox fuzzing
 
