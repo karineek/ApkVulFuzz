@@ -9,7 +9,7 @@ Fuzzing APK as binaries to hit vulnerabilities
 
 Run:
 ```
-./search-blackbox.sh > all.log 2>&1 
+./scripts/search-blackbox.sh > all.log 2>&1 
 ```
 
 ## Greybox fuzzing
