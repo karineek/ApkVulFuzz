@@ -8,6 +8,9 @@ Fuzzing APK as binaries to hit vulnerabilities
 ```
 sudo apt update
 sudo apt install -y python3 python3-pip openjdk-17-jdk unzip wget
+python3 -m pip install --upgrade pip
+python3 -m pip install --upgrade setuptools
+python3 -m pip install --upgrade pip setuptools wheel
 ```
   
 **2.** Setup Android SDK root environment
@@ -131,7 +134,7 @@ adb devices -l
 ```
 git clone https://github.com/honeynet/droidbot.git
 cd droidbot
-python3 -m pip install -e .
+pip install -e .
 ```
 You can read further on how to use this emulator: [https://github.com/honeynet/droidbot]   
 
