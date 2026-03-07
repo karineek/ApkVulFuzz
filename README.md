@@ -123,6 +123,11 @@ TODO
 
 ## Test Corrupted APK
 
+First, try this command:
+```
+apkanalyzer apk summary F-Droid.apk 
+```
+
 Run this command to test if the apk is behaving oddly:
 ```
 user@nmscmo008175 droidbot % python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
