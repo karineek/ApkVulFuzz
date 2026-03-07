@@ -134,7 +134,7 @@ adb devices -l
 ```
 git clone https://github.com/honeynet/droidbot.git
 cd droidbot
-pip install -e .
+python3 -m pip install -e .
 ```
 You can read further on how to use this emulator: [https://github.com/honeynet/droidbot]   
 
