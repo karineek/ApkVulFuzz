@@ -25,13 +25,17 @@ mkdir -p "$ANDROID_SDK_ROOT/cmdline-tools/latest"
 mv /tmp/cmdline-tools-unpacked/cmdline-tools/* "$ANDROID_SDK_ROOT/cmdline-tools/latest/"
 
 export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
 
+## Optional if you want to install it for good
 cat >> ~/.bashrc <<'EOF'
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
 export ANDROID_HOME="$ANDROID_SDK_ROOT"
 export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
 EOF
 source ~/.bashrc
+## End of optional part
 
 sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses
 ```
@@ -102,7 +106,20 @@ Option            Description
 --human-readable  Print sizes in human readable format
 ```
 
-4. Install the simulator:
+**4.** Install the emulator + start:
+
+Run this:
+```
+avdmanager create avd -n test34 -k "system-images;android-34;google_apis;x86_64"
+```
+
+Check if it is created:
+```
+emulator -list-avds
+```
+
+
+**5.** Install the simulator:
 
 ```
 git clone https://github.com/honeynet/droidbot.git
