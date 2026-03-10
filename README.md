@@ -8,6 +8,8 @@ Fuzzing APK as binaries to hit vulnerabilities
 ```
 sudo apt update
 sudo apt install -y python3 python3-pip openjdk-17-jdk unzip wget
+sudo apt install -y libxml2-utils
+sudo apt install -y apksigner
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
 python3 -m pip install --upgrade pip setuptools wheel
@@ -145,6 +147,17 @@ You can read further on how to use this emulator: [https://github.com/honeynet/d
 Then you can test with a valid APK:
 ```
 python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+```
+
+## General Ways to Check APK
+
+Partial list, we need to add the rest:
+```
+apksigner verify  F-Droid_f35baa5a.apk
+zipinfo F-Droid_f35baa5a.apk
+zipinfo -v F-Droid_f35baa5a.apk
+unzip F-Droid_fff8d915.apk
+androguard axml AndroidManifest.xml
 ```
 
 ## Blackbox fuzzing
