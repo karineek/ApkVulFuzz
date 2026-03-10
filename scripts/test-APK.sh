@@ -23,6 +23,8 @@ if unzip -t $apk >/dev/null; then
         echo ">> (Info) emulation is OK"
         grep "NFO:Device:App installed: org.fdroid.fdroid" $apk.results
         grep "Please wait while installing the app..." $apk.results | wc -l
+
+        apksigner verify $apk
       else
         echo ">> (Info) emulation is BROKEN"
         exit 255
