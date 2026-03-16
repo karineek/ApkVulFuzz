@@ -4,7 +4,7 @@ sudo apt install -y libxml2-utils
 sudo apt install -y apksigner adb
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
-python3 -m pip install --upgrade pip setuptools wheel
+python3 -m pip install --upgrade pip setuptools wheel androguard networkx Pillow
 
 mkdir -p "$HOME/android-sdk/cmdline-tools"
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
