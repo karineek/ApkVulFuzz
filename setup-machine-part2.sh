@@ -1,6 +1,11 @@
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
 export ANDROID_HOME="$ANDROID_SDK_ROOT"
 
+which adb
+which emulator
+which sdkmanager
+which avdmanager
+
 yes | sdkmanager --sdk_root="$ANDROID_SDK_ROOT" --licenses
 
 sdkmanager --sdk_root="$ANDROID_SDK_ROOT" \
