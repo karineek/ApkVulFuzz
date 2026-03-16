@@ -18,8 +18,17 @@ avdmanager create avd -n test34 -k "system-images;android-34;google_apis;x86_64"
 emulator -list-avds
 
 emulator -avd test34 -no-window -no-audio -no-boot-anim -no-metrics -no-snapshot > /tmp/emulator.log 2>&1 &
+
 adb wait-for-device
-until [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do sleep 2; done
+
+echo ">> Waiting for device"
+
+until [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do
+  sleep 2
+done
+
+echo ">> Installation of system completed"
+
 adb devices -l
 
 git clone https://github.com/honeynet/droidbot.git
