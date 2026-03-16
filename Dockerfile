@@ -64,33 +64,10 @@ RUN git clone https://github.com/honeynet/droidbot.git && \
     python3 -m pip install "androguard>=3.4.0a1,<4" && \
     python3 -m pip install -e .
 
+# 6. Get the fuzzer
 WORKDIR /opt
-RUN git clone
+RUN git clone https://github.com/karineek/ApkVulFuzz.git
 
-# Set up your working directory
-WORKDIR /app
+WORKDIR /workspace
 
-# Copy your local project files (scripts, src, etc.) into the container
-COPY . /app
-
-# Create a startup wrapper script
-RUN cat <<'EOF' > /app/start.sh
-#!/bin/bash
-echo "Starting Android emulator in the background..."
-emulator -avd test34 -no-window -no-audio -no-boot-anim -no-metrics -no-snapshot -gpu swiftshader_indirect > /tmp/emulator.log 2>&1 &
-
-echo "Waiting for device to boot..."
-adb wait-for-device
-until [ "$(adb shell getprop sys.boot_completed | tr -d '\r')" = "1" ]; do sleep 2; done
-
-echo "Emulator is up! Starting the black box script..."
-./scripts/search-blackbox.sh > all.log 2>&1
-
-echo "Done. Dumping the last 50 lines of all.log:"
-tail -n 50 all.log
-EOF
-
-RUN chmod +x /app/start.sh
-
-# By default, run the startup script
-CMD ["/app/start.sh"]
+CMD ["bash"]
