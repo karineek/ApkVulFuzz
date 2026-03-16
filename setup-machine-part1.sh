@@ -1,7 +1,7 @@
 sudo apt update
 sudo apt install -y python3 python3-pip openjdk-17-jdk unzip wget
 sudo apt install -y libxml2-utils
-sudo apt install -y apksigner
+sudo apt install -y apksigner adb
 python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
 python3 -m pip install --upgrade pip setuptools wheel
