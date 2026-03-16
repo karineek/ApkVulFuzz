@@ -151,8 +151,12 @@ python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emu
 
 ### Troubleshooting
 
-#### Problem 1:
-If not emulator up:
+Number 1 problem and the root cause of 99% of the issues is not properly running "headless" environment. Ask LLM to solve it with this hint.
+
+Some other issues are listed below.
+
+#### Problem 2:
+If no emulator up:
 ```
 user@node0:~/droidbot$ adb devices
 List of devices attached
@@ -169,7 +173,7 @@ newgrp kvm
 emulator -avd test34 -no-window -no-audio -no-metrics &
 ```
 
-#### Problem 2:
+#### Problem 3:
 
 If you can run the emulator, but get this error:
 ```
