@@ -151,6 +151,7 @@ python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emu
 
 ### Troubleshooting
 
+#### Problem 1:
 If not emulator up:
 ```
 user@node0:~/droidbot$ adb devices
@@ -167,6 +168,25 @@ sudo usermod -aG kvm $USER
 newgrp kvm
 emulator -avd test34 -no-window -no-audio -no-metrics &
 ```
+
+#### Problem 2:
+
+If you can run the emulator, but get this error:
+```
+WARNING:DroidBotAppConn:Restarting droidbot app 51059 Traceback (most recent call last): File "/users/user/droidbot/droidbot/adapter/droidbot_app.py", line 140, in listen_messages _, _, message_len = self.read_head() File "/users/user/droidbot/droidbot/adapter/droidbot_app.py", line 131, in read_head header = self.sock_read(DROIDBOT_APP_PACKET_HEAD_LEN) File "/users/user/droidbot/droidbot/adapter/droidbot_app.py", line 122, in sock_read raise EOF()
+```
+
+Then run:
+```
+adb shell getprop sys.boot_completed
+adb kill-server
+adb start-server
+adb install /users/kevenmen/droidbot/droidbot/resources/droidbotApp.apk
+adb shell settings put secure enabled_accessibility_services io.github.ylimit.droidbotapp/io.github.privacystreams.accessibility.PSAccessibilityService
+adb shell settings put secure accessibility_enabled 1
+pkill -f start.py
+```
+
 
 ## General Ways to Check APK
 
