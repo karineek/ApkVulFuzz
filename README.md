@@ -141,6 +141,8 @@ python3 -m pip uninstall -y androguard
 python3 -m pip install "androguard>=3.4.0a1,<4"
 
 python3 -m pip install -e .
+
+adb -s emulator-5554 install droidbot/resources/droidbotApp.apk
 ```
 You can read further on how to use this emulator: [https://github.com/honeynet/droidbot]   
 
