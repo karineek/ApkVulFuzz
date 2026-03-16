@@ -149,6 +149,25 @@ Then you can test with a valid APK:
 python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
 ```
 
+### Troubleshooting
+
+If not emulator up:
+```
+user@node0:~/droidbot$ adb devices
+List of devices attached
+
+user@node0:~/droidbot$
+```
+to fix it, run:
+```
+sudo apt update
+sudo apt install -y libpulse0
+sudo gpasswd -a $USER kvm
+sudo usermod -aG kvm $USER
+newgrp kvm
+emulator -avd test34 -no-window -no-audio -no-metrics &
+```
+
 ## General Ways to Check APK
 
 Partial list, we need to add the rest:
