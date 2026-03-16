@@ -68,6 +68,6 @@ RUN git clone https://github.com/honeynet/droidbot.git && \
 WORKDIR /opt
 RUN git clone https://github.com/karineek/ApkVulFuzz.git
 
-WORKDIR /workspace
+WORKDIR /opt
 
 CMD ["bash"]
