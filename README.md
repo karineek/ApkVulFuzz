@@ -17,7 +17,6 @@ python3 -m pip install --upgrade pip setuptools wheel
   
 **2.** Setup Android SDK root environment
 ```
-
 mkdir -p "$HOME/android-sdk/cmdline-tools"
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
 export ANDROID_HOME="$ANDROID_SDK_ROOT"
