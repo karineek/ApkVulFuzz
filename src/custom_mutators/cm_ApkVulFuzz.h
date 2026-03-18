@@ -3,6 +3,8 @@
 
 #ifdef AFL_CM
   #include "afl-fuzz.h"
+#else
+    typedef void afl_state_t;
 #endif
 
 #include <stdint.h>
@@ -17,8 +19,6 @@ typedef struct my_mutator {
 
   #ifdef AFL_CM
     afl_state_t *afl;
-  #else
-    typedef void afl_state_t;
   #endif
   
     char *out_buf; // The whole seed in a buffer
