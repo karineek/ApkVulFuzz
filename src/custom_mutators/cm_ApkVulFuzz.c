@@ -126,7 +126,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     } // Else continue with the mutations
 
     // Shrink the buffer till \0
-    size_t actual_size = strlen(data->out_buff) + 1; // Add 1 for the null-terminator
+    size_t actual_size = strlen(data->out_buf) + 1; // Add 1 for the null-terminator
     uint8_t *new_new_buf = malloc(actual_size);
     if ((!new_new_buf)) {
         WARNF(">>-9 Bad re-allocation for buffer for mutations. Could not allocate %zu size buffer.", actual_size);
