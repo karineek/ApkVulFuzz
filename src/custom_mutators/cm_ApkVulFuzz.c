@@ -10,7 +10,7 @@ my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed) {
 
   my_mutator_t *data = calloc(1, sizeof(my_mutator_t));
   if (!data) {
-    perror(">>-1 afl_custom_init alloc");
+    perror(">> (afl_custom_init) afl_custom_init alloc");
     return NULL;
   }
   
@@ -73,13 +73,18 @@ int main() {
     fclose(in);
 
     // Mutate
-    my_mutator_t data;
+    my_mutator_t *data = afl_custom_init(NULL, 0);
+    if (!data) {
+        fprintf(stderr, "Error: afl_custom_init failed\n");
+        free(buf);
+        return 1;
+    }
     
-    data.buf_size = size;
-    data.i = i;
-    data.j = j;
+    data->buf_size = size;
+    data->i = i;
+    data->j = j;
     
-    mutateBinary(buf, &data);
+    mutateBinary(buf, data);
 
     // Write output
     FILE *out = fopen("mutated.apk", "wb");
@@ -96,8 +101,11 @@ int main() {
         return 1;
     }
 
+    // cleanup
+    free(data);
     fclose(out);
     free(buf);
+  
 
     return 0;
 }
