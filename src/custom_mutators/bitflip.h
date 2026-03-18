@@ -1,6 +1,7 @@
 // bitflip.h header
 #include <stdint.h>
 #include <stdbool.h>
+#include "cm_ApkVulFuzz.h"
 
 #ifndef BITFLIP_H
 #define BITFLIP_H
