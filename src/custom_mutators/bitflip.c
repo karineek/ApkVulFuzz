@@ -1,86 +1,118 @@
-#include <cstdint>
-#include <fstream>
-#include <iostream>
-#include <random>
-#include <stdexcept>
-#include <string>
-#include <vector>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 void flip_random_bit_in_range(uint8_t* new_buf,
-                              std::uint64_t buf_size,
-                              std::uint64_t i,
-                              std::uint64_t j) {
+                              uint64_t buf_size,
+                              uint64_t i,
+                              uint64_t j) {
     if (!new_buf) {
-        throw std::invalid_argument("new_buf is null");
+        fprintf(stderr, "Error: new_buf is null\n");
+        return;
     }
 
     if (j <= i) {
-        throw std::invalid_argument("Need 0 <= i < j");
+        fprintf(stderr, "Error: Need 0 <= i < j\n");
+        return;
     }
 
     if (j > buf_size) {
-        throw std::out_of_range("Range end j is past buffer size");
+        fprintf(stderr, "Error: Range end j is past buffer size\n");
+        return;
     }
 
-    static thread_local std::mt19937_64 gen(std::random_device{}());
+    // Initialize RNG once
+    static int seeded = 0;
+    if (!seeded) {
+        srand((unsigned int)time(NULL));
+        seeded = 1;
+    }
 
-    std::uniform_int_distribution<std::uint64_t> off_dist(i, j - 1);
-    std::uniform_int_distribution<int> bit_dist(0, 7);
+    uint64_t off = i + (rand() % (j - i));
+    int bit = rand() % 8;
 
-    std::uint64_t off = off_dist(gen);
-    int bit = bit_dist(gen);
-    uint8_t mask = static_cast<uint8_t>(1u << bit);
+    uint8_t mask = (uint8_t)(1u << bit);
 
     uint8_t old_byte = new_buf[off];
-    uint8_t new_byte = static_cast<uint8_t>(old_byte ^ mask);
+    uint8_t new_byte = (uint8_t)(old_byte ^ mask);
     new_buf[off] = new_byte;
 
-    std::cout << "Flipped bit " << bit
-              << " at byte offset " << off
-              << ": 0x" << std::hex
-              << static_cast<int>(old_byte)
-              << " -> 0x" << static_cast<int>(new_byte)
-              << std::dec << '\n';
+    printf("Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
+           bit,
+           (unsigned long long)off,
+           old_byte,
+           new_byte);
 }
 
+
+// STAB - remove later
 int main() {
-    try {
-        std::string path = "F-Droid.apk";
-        std::uint64_t i = 7401341;
-        std::uint64_t j = i + 8921;
+    const char *path = "F-Droid.apk";
+    uint64_t i = 7401341;
+    uint64_t j = i + 8921;
 
-        std::ifstream in(path, std::ios::binary | std::ios::ate);
-        if (!in) {
-            throw std::runtime_error("Failed to open file: " + path);
-        }
-
-        std::uint64_t size = static_cast<std::uint64_t>(in.tellg());
-        in.seekg(0, std::ios::beg);
-
-        std::vector<uint8_t> buf(size);
-        if (!in.read(reinterpret_cast<char*>(buf.data()),
-                     static_cast<std::streamsize>(buf.size()))) {
-            throw std::runtime_error("Failed to read file");
-        }
-
-        flip_random_bit_in_range(buf.data(), buf.size(), i, j);
-
-        // Optional: write mutated buffer back out
-        std::ofstream out("mutated.apk", std::ios::binary);
-        if (!out) {
-            throw std::runtime_error("Failed to create output file");
-        }
-
-        out.write(reinterpret_cast<const char*>(buf.data()),
-                  static_cast<std::streamsize>(buf.size()));
-        if (!out) {
-            throw std::runtime_error("Failed to write output file");
-        }
-
-    } catch (const std::exception& e) {
-        std::cerr << "Error: " << e.what() << '\n';
+    FILE *in = fopen(path, "rb");
+    if (!in) {
+        fprintf(stderr, "Error: Failed to open file: %s\n", path);
         return 1;
     }
+
+    // Get file size
+    if (fseek(in, 0, SEEK_END) != 0) {
+        fprintf(stderr, "Error: fseek failed\n");
+        fclose(in);
+        return 1;
+    }
+
+    long size = ftell(in);
+    if (size < 0) {
+        fprintf(stderr, "Error: ftell failed\n");
+        fclose(in);
+        return 1;
+    }
+
+    rewind(in);
+
+    // Allocate buffer
+    uint8_t *buf = (uint8_t *)malloc(size);
+    if (!buf) {
+        fprintf(stderr, "Error: malloc failed\n");
+        fclose(in);
+        return 1;
+    }
+
+    // Read file
+    if (fread(buf, 1, size, in) != (size_t)size) {
+        fprintf(stderr, "Error: Failed to read file\n");
+        free(buf);
+        fclose(in);
+        return 1;
+    }
+
+    fclose(in);
+
+    // Mutate
+    flip_random_bit_in_range(buf, size, i, j);
+
+    // Write output
+    FILE *out = fopen("mutated.apk", "wb");
+    if (!out) {
+        fprintf(stderr, "Error: Failed to create output file\n");
+        free(buf);
+        return 1;
+    }
+
+    if (fwrite(buf, 1, size, out) != (size_t)size) {
+        fprintf(stderr, "Error: Failed to write output file\n");
+        fclose(out);
+        free(buf);
+        return 1;
+    }
+
+    fclose(out);
+    free(buf);
 
     return 0;
 }
