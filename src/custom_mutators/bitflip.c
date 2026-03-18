@@ -45,7 +45,7 @@ void flip_random_bit_in_range(uint8_t* new_buf,
 
 int main() {
     try {
-        std::string path = "/Users/karine/Downloads/F-Droid.apk";
+        std::string path = "F-Droid.apk";
         std::uint64_t i = 7401341;
         std::uint64_t j = i + 8921;
 
