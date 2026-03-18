@@ -1,8 +1,5 @@
-#include <stdint.h>
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <time.h>
+#include "cm_ApkVulFuzz.h"
 
 //bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
 
