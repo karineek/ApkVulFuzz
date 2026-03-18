@@ -7,7 +7,7 @@ AFL_NO_AFFINITY=1 AFL_SHUFFLE_QUEUE=1 AFL_CUSTOM_MUTATOR_ONLY=1 AFL_DUMB_FORKSRV
 AFL_MAP_SIZE=1200000 \
 AFL_CUSTOM_MUTATOR_LIBRARY=./build/cm-ApkVulFuzz.so \
 afl-fuzz -m none -m 50000 -t 99000 \
--i input -o output -- \
+-i ApkVulFuzz/Evaluation-SSBSE-2026/corpus/ -o output -- \
 python3 start.py -a @@ -d emulator-5554 \
 -policy bfs_greedy -count 1000 -interval 2 \
 -timeout 1800 -o results/fdroid_run \
