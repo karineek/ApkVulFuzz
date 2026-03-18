@@ -4,26 +4,28 @@
 #include <string.h>
 #include <time.h>
 
-void flip_random_bit_in_range(uint8_t* new_buf,
-                              uint64_t buf_size,
-                              uint64_t i,
-                              uint64_t j) {
+//bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
+
+bool mutateBinary(uint8_t* new_buf,
+                          uint64_t buf_size,
+                          uint64_t i,
+                          uint64_t j) {
     if (!new_buf) {
         fprintf(stderr, "Error: new_buf is null\n");
-        return;
+        return false;
     }
 
     if (j <= i) {
         fprintf(stderr, "Error: Need 0 <= i < j\n");
-        return;
+        return false;
     }
 
     if (j > buf_size) {
         fprintf(stderr, "Error: Range end j is past buffer size\n");
-        return;
+        return false;
     }
 
-    // Initialize RNG once
+    //Initialise RNG once
     static int seeded = 0;
     if (!seeded) {
         srand((unsigned int)time(NULL));
@@ -44,6 +46,8 @@ void flip_random_bit_in_range(uint8_t* new_buf,
            (unsigned long long)off,
            old_byte,
            new_byte);
+  
+    return true;   
 }
 
 
