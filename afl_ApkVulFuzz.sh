@@ -9,8 +9,7 @@ AFL_SKIP_CPUFREQ=1 AFL_NO_AFFINITY=1 AFL_DUMB_FORKSRV=1 AFL_SKIP_BIN_CHECK=1 \
 AFL_MAP_SIZE=1200000 \
 AFL_SHUFFLE_QUEUE=1 \
 AFL_CUSTOM_MUTATOR_ONLY=1 AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so \
-$HOME/AFLplusplus/afl-fuzz -m 50000 -t 99000 \
---max_len 20000000 \
+$HOME/AFLplusplus/afl-fuzz -m 50000 -t 99000 -G 5000000 \
 -i $HOME/ApkVulFuzz/Evaluation-SSBSE-2026/corpus/ -o output -- \
 python3 $HOME/droidbot/start.py -a @@ -d emulator-5554 \
 -policy bfs_greedy -count 100 -interval 2 \
