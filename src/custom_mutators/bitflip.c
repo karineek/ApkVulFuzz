@@ -6,7 +6,7 @@
 bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
 
     if (!new_buf || !data) {
-        fprintf(stderr, "Error: null pointer\n");
+        perror(">> (mutateBinary) Error: null pointer\n");
         return false;
     }
 
@@ -15,12 +15,12 @@ bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
     uint64_t j = data->j;
 
     if (j <= i) {
-        fprintf(stderr, "Error: Need 0 <= i < j\n");
+        perror(">> (mutateBinary) Error: Need 0 <= i < j\n");
         return false;
     }
 
     if (j > buf_size) {
-        fprintf(stderr, "Error: Range end j is past buffer size\n");
+        perror(">> (mutateBinary) Error: Range end j is past buffer size\n");
         return false;
     }
 
@@ -41,7 +41,7 @@ bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
     new_buf[off] = new_byte;
 
     #ifdef TEST_CM
-    printf("Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
+    printf(">> (mutateBinary) Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
            bit,
            (unsigned long long)off,
            old_byte,
