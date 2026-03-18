@@ -15,19 +15,16 @@
 
 typedef struct my_mutator {
 
-#ifndef AFL_CM
-  afl_state_t *afl;
-#endif
-
-  char* out_buff; // The whole args in buffers
-
-  char* file_name_types; // The name of the file with types to mutate
-
-  char* input_args; // Keeps the input arguments for mutating
-
-  char* input_digit; // Buffer for register mutations
+  #ifndef AFL_CM
+    afl_state_t *afl;
+  #endif
+  
+    char *out_buf; // The whole seed in a buffer
+  
+    uint64_t buf_size; // Full size in bytes of the APK
+    uint64_t i; // Offset to fuzz from 
+    uint64_t j; // Offset to fuzz to 
 
 } my_mutator_t;
-
 
 #endif // CUSTOM_MUTATOR_H
