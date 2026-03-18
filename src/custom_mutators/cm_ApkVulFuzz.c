@@ -36,8 +36,8 @@ void afl_custom_deinit(my_mutator_t *data) {
         return; // nothing to do here
     } else {
         // Free out buffer if it is not nullptr
-        if (data->out_buff != NULL) {
-        free(data->out_buff);
+        if (data->out_buf != NULL) {
+        free(data->out_buf);
     }
     
     // Reset afl variable if needed
