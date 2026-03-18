@@ -14,6 +14,7 @@
 #include <stddef.h>
 #include <time.h>
 #include <limits.h>
+#include <types.h>
 
 typedef struct my_mutator {
 
