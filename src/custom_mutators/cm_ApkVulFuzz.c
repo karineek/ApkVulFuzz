@@ -5,7 +5,7 @@
 // Start adding AFL functions //
 ////////////////////////////////
 /**
- * Initialize this custom mutator
+ * Initialise this custom mutator
  *
  * @param[in] afl a pointer to the internal state object. Can be ignored for
  * now.
@@ -116,7 +116,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
-    // Check if mutation succ. and Check new_buf before declaring the mutation is okay
+    // Check if mutation succ. and check new_buf before declaring the mutation is okay
     if ((mutations_rc==0) || (countLines((const char *) new_buf,new_size) < 2)) {
 #ifdef TEST_CM
         WARNF(">>-8-B Bad generation for buffer with mutations. Memory corrupted.");
@@ -201,8 +201,30 @@ int main() {
     data->i = i;
     data->j = j;
     
-    mutateBinary(buf, data);
+    //mutateBinary(buf, data);
+    // AFL-style mutation
+    u8 *out_buf = NULL;
 
+    size_t max_size = file_size + 4096;   // allow growth (important for fuzzing)
+
+    size_t new_size = afl_custom_fuzz(
+        data,
+        buf,
+        file_size,
+        &out_buf,
+        NULL,
+        0,
+        max_size
+    );
+
+    if (!out_buf || new_size == 0) {
+        fprintf(stderr, "Error: afl_custom_fuzz failed\n");
+        afl_custom_deinit(data);
+        free(buf);
+        return 1;
+    }
+
+	
     // Write output
     FILE *out = fopen("mutated.apk", "wb");
     if (!out) {
@@ -223,6 +245,5 @@ int main() {
     fclose(out);
     free(buf);
   
-
     return 0;
 }
