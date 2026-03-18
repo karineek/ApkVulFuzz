@@ -5,7 +5,6 @@ AFL_SHUFFLE_QUEUE=1 \
 AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so \
 AFL_NO_AFFINITY=1 \
 ./afl-fuzz -n -m none -t 200000 \
-          -G 25000000 \
           -i $HOME/ApkVulFuzz/Evaluation-SSBSE-2026/corpus \
           -o output -- \
       python3 $HOME/droidbot/start.py -a @@ -d emulator-5554 \
