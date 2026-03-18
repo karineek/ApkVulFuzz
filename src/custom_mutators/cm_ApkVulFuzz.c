@@ -41,7 +41,9 @@ void afl_custom_deinit(my_mutator_t *data) {
     }
     
     // Reset afl variable if needed
+    #ifdef AFL_CM
     data->afl = 0;
+    #endif
     
     // Free the main structure (data)
     free(data);
@@ -124,7 +126,7 @@ int main() {
     }
 
     // cleanup
-    free(data);
+    afl_custom_deinit(data);
     fclose(out);
     free(buf);
   
