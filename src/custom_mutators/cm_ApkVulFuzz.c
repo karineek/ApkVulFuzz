@@ -13,32 +13,17 @@ my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed) {
     perror(">>-1 afl_custom_init alloc");
     return NULL;
   }
+  
+  data->buf_size = 0;
+  data->i=0;
+  data->j=0;
 
-  if ((data->out_buff = (char *)malloc(MAX_CMDLINE_SIZE)) == NULL) {
-    perror(">>-2 afl_custom_init malloc");
-    return NULL;
-  }
-
-  if ((data->file_name_types = (char *)malloc(MAX_FILE_NAME_SIZE)) == NULL) {
-    perror(">>-3 afl_custom_init malloc");
-    return NULL;
-  }
-
-  if ((data->input_args = (char *)malloc(MAX_ARGS_SIZE)) == NULL) {
-    perror(">>-4 afl_custom_init malloc");
-    return NULL;
-  }
-
-  if ((data->input_digit = (char *)malloc(MAX_DATA_SIZE)) == NULL) {
-    perror(">>-5 afl_custom_init malloc");
-    return NULL;
-  }
-
+  #ifdef AFL_CM
   data->afl = afl;
-
+  #endif
+  
   return data;
 }
-
 
 
 // STAB - remove later
