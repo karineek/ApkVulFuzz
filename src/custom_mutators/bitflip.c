@@ -1,16 +1,16 @@
 #include <stdio.h>
 #include "cm_ApkVulFuzz.h"
 
-//bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
+bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
 
-bool mutateBinary(uint8_t* new_buf,
-                          uint64_t buf_size,
-                          uint64_t i,
-                          uint64_t j) {
-    if (!new_buf) {
-        fprintf(stderr, "Error: new_buf is null\n");
+    if (!new_buf || !data) {
+        fprintf(stderr, "Error: null pointer\n");
         return false;
     }
+
+    uint64_t buf_size = data->buf_size;
+    uint64_t i = data->i;
+    uint64_t j = data->j;
 
     if (j <= i) {
         fprintf(stderr, "Error: Need 0 <= i < j\n");
