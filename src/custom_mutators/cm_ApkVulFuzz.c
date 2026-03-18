@@ -50,7 +50,13 @@ int main() {
     fclose(in);
 
     // Mutate
-    flip_random_bit_in_range(buf, size, i, j);
+    my_mutator_t data;
+    
+    data.buf_size = size;
+    data.i = i;
+    data.j = j;
+    
+    mutateBinary(buf, &data);
 
     // Write output
     FILE *out = fopen("mutated.apk", "wb");
