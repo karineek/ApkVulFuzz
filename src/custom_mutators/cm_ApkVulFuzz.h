@@ -5,6 +5,7 @@
   #include "afl-fuzz.h"
 #else
     typedef void afl_state_t;
+    typedef uint8_t u8;
 #endif
 
 #include <stdint.h>
@@ -14,7 +15,6 @@
 #include <stddef.h>
 #include <time.h>
 #include <limits.h>
-#include <types.h>
 
 typedef struct my_mutator {
 
