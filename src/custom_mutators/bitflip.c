@@ -39,11 +39,13 @@ bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
     uint8_t new_byte = (uint8_t)(old_byte ^ mask);
     new_buf[off] = new_byte;
 
+    #ifdef TEST_CM
     printf("Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
            bit,
            (unsigned long long)off,
            old_byte,
            new_byte);
+    #endif
   
     return true;   
 }
