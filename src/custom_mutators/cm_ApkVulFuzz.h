@@ -16,6 +16,8 @@
 #include <time.h>
 #include <limits.h>
 
+#define AFL_CUSTOM_MUTATOR_FAILED { *out_buf = NULL; return 0; } // We cannot work with this
+
 typedef struct my_mutator {
 
   #ifdef AFL_CM
