@@ -25,6 +25,28 @@ my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed) {
   return data;
 }
 
+/**
+ * Deinitialize everything
+ *
+ * @param data The data ptr from afl_custom_init
+ */
+void afl_custom_deinit(my_mutator_t *data) {
+    // Check if data is not nullptr
+    if (!data) {
+        return; // nothing to do here
+    } else {
+        // Free out buffer if it is not nullptr
+        if (data->out_buff != NULL) {
+        free(data->out_buff);
+    }
+    
+    // Reset afl variable if needed
+    data->afl = 0;
+    
+    // Free the main structure (data)
+    free(data);
+    }
+}
 
 // STAB - remove later
 int main() {
