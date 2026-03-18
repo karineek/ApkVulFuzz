@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "bitflip.h"
 #include "cm_ApkVulFuzz.h"
+#include "utils.h"
 
 bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
 
