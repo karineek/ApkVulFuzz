@@ -1,7 +1,7 @@
 #ifndef CUSTOM_MUTATOR_H
 #define CUSTOM_MUTATOR_H
 
-#ifndef AFL_CM
+#ifdef AFL_CM
   #include "afl-fuzz.h"
 #endif
 
