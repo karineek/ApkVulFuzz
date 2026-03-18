@@ -93,51 +93,34 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     size_t new_size = actual_in_buf_size; // Size of APK should stay the same.
     uint8_t *new_buf = malloc(new_size);
     if (!new_buf) {
+#ifdef TEST_CM
         WARNF(">>-7A Bad allocation for buffer for mutations. Could not allocate %zu size buffer.", new_size);
+#endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
     // Copy the original input data
     memcpy(new_buf, buf, buf_size);
-
     if (!data) {
-	      WARNF(">>-7B Bad allocation for data strucuture coming from AFL++");
+#ifdef TEST_CM
+	    WARNF(">>-7B Bad allocation for data strucuture coming from AFL++");
+#endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
     // KEM: here we can define 3 mutators: combine one, args mutator and binary mutator.
-    bool mutations_rc = 0; // RC if mutations succ.
-    mutations_rc = mutateBinary(new_buf, data);
-
+    bool mutations_rc = mutateBinary(new_buf, data);
     // Check if no buff returned
-    if (!new_buf) {
+    if (!new_buf) || (mutations_rc==0) {
 #ifdef TEST_CM
         WARNF(">>-8-A Bad generation for buffer with mutations.");
 #endif
+		if (!new_buf) 
+			free(new_buf);
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    }
-
-    // Check if mutation succ. and check new_buf before declaring the mutation is okay
-    if ((mutations_rc==0) || (countLines((const char *) new_buf,new_size) < 2)) {
-#ifdef TEST_CM
-        WARNF(">>-8-B Bad generation for buffer with mutations. Memory corrupted.");
-#endif
-        free(new_buf);
-	      AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     } // Else continue with the mutations
 
-    // Shrink the buffer till \0
-    size_t actual_size = strlen(data->out_buf) + 1; // Add 1 for the null-terminator
-    uint8_t *new_new_buf = malloc(actual_size);
-    if ((!new_new_buf)) {
-        WARNF(">>-9 Bad re-allocation for buffer for mutations. Could not allocate %zu size buffer.", actual_size);
-        AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    }
-    memcpy(new_new_buf, new_buf, actual_size);
-    // Clear the old data
-    free(new_buf);
-
     // Set it as output buff
-    *out_buf = new_new_buf;
+    *out_buf = new_buf;
 
     // Return mutated
     return actual_size;
