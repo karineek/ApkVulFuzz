@@ -83,7 +83,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
                        size_t max_size) {
 
     // Check if broken input	
-    if (!buf || buf_size < 11) {
+    if (!buf || buf_size < 11 || max_size < buf_size) {
 #ifdef TEST_CM
 	    WARNF(">>-6A Odd size of register is: %zu", buf_size);
 #endif
