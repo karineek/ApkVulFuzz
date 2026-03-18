@@ -33,10 +33,10 @@ typedef struct my_mutator {
 my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed);
 void afl_custom_deinit(my_mutator_t *data);
 
-//size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
-//                       u8 **out_buf, uint8_t *add_buf,
-//                       size_t add_buf_size,  // add_buf can be NULL
-//                      size_t max_size);
+size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
+                       u8 **out_buf, uint8_t *add_buf,
+                       size_t add_buf_size,  // add_buf can be NULL
+                       size_t max_size);
 
 
 #endif // CUSTOM_MUTATOR_H
