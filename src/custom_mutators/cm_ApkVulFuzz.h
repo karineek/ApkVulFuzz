@@ -15,7 +15,7 @@
 
 typedef struct my_mutator {
 
-  #ifndef AFL_CM
+  #ifdef AFL_CM
     afl_state_t *afl;
   #endif
   
