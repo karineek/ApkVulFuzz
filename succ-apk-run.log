@@ -1,0 +1,241 @@
+kevenmen@node0:~/droidbot$ history
+    1  ls -l
+    2  cd ApkVulFuzz/
+    3  ls -l
+    4  ./setup-machine-part1.sh 
+    5  group
+    6  groups
+    7  git clone https://github.com/karineek/ApkVulFuzz.git
+    8  ls -l
+    9  cd ApkVulFuzz/
+   10  ls -l
+   11  chmod 777 *.sh
+   12  ./0-setup-docker-m510.sh 
+   13  docker run -it android-build-env bash
+   14  docker build -t android-build-env .
+   15  git pull
+   16  docker build -t android-build-env .
+   17  docker run -it android-build-env:latest
+   18  adb version
+   19  sdkmanager --list | head
+   20  avdmanager list target | head
+   21  apkanalyzer --help | head
+   22  emulator -list-avds
+   23  adb wait-for-device
+   24  pwd
+   25  cd droidbot/
+   26  cd ApkVulFuzz/
+   27  ls -l
+   28  ./setup-machine-part2.sh 
+   29  adb version
+   30  sdkmanager --list | head
+   31  avdmanager list target | head
+   32  apkanalyzer --help | head
+   33  sudo apt install adb
+   34  adb version
+   35  ./setup-machine-part2.sh 
+   36  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   37  cd ..
+   38  ls -l
+   39  git clone https://github.com/honeynet/droidbot.git
+   40  cd droidbot
+   41  python3 -m pip uninstall -y androguard
+   42  python3 -m pip install "androguard>=3.4.0a1,<4"
+   43  python3 -m pip install -e .
+   44  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   45  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   46  apkanalyzer apk summary ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk 
+   47  adb -s emulator-5554 shell getprop sys.boot_completed
+   48  adb devices
+   49  python3 -c "import subprocess; print(subprocess.check_output(['adb','devices']))"
+   50  adb shell ime list -a
+   51  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+   52  adb shell ime set io.github.ylimit.droidbotapp/.DroidBotIME
+   53  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   54  ime list -a
+   55  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+   56  adb shell ime list -a
+   57  find . -name "droidbotapp.apk"
+   58  adb install ../ApkVulFuzz/Evaluation-SSBSE-2026/seeds/F-Droid.apk
+   59  adb install ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk
+   60  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   61  ls -l
+   62  python3 setup.py 
+   63  python3 setup.py --help
+   64  pip install androguard>=3.4.0a1 networkx Pillow
+   65  pip3 install androguard>=3.4.0a1 networkx Pillow
+   66  pip install --upgrade pip
+   67  pip install androguard>=3.4.0a1 networkx Pillow
+   68  pip3 install --user --upgrade androguard networkx Pillow
+   69  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy monkey -interval 0 -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+   70  sdkmanager --sdk_root="$ANDROID_SDK_ROOT"   "platform-tools"   "emulator"   "platforms;android-34"   "system-images;android-34;google_apis;x86_64"
+   71  pip3 install --user "androguard==3.4.0a1"
+   72  adb shell pm list packages | grep droidbot
+   73  adb kill-server
+   74  adb start-server
+   75  python3 -c "import androguard; print(androguard.__version__)"
+   76  adb version
+   77  sdkmanager --list | head
+   78  avdmanager list target | head
+   79  apkanalyzer --help | head
+   80  emulator -list-avds
+   81  emulator -avd test34 -no-window -no-audio -no-boot-anim -no-metrics -no-snapshot > /tmp/emulator.log 2>&1 &
+   82  adb wait-for-device
+   83  cat /tmp/emulator.log
+   84  adb devices -l
+   85  python3 -m pip install -e .
+   86  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+   87  python3 -m droidbot   -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk   -d emulator-5554   -policy bfs_greedy   -count 100   -interval 2   -timeout 20   -o results/fdroid_run   -is_emulator   -grant_perm
+   88  ING:DroidBotIme:Failed to disconnect DroidBotIME!
+   89  [CONNECTION] ProcessMonitor is disconnected
+   90  kevenmen@node0:~/droidbot$ python3 -m droidbot   -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk   -d emulator-5554   -policy bfs_greedy   -count 100   -interval 2   -timeout 20   -o results/fdroid_run   -is_emulator   -grant_perm
+   91  /usr/bin/python3: No module named droidbot.__main__; 'droidbot' is a package and cannot be directly executed
+   92  kevenmen@node0:~/droidbot$ 
+   93  which driodbot
+   94  kevenmen@node0:~/droidbot$ python3 -m droidbot   -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk   -d emulator-5554   -policy bfs_greedy   -count 100   -interval 2   -timeout 20   -o results/fdroid_run   -is_emulator   -grant_perm
+   95  python3 -m droidbot   -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk   -d emulator-5554   -policy bfs_greedy   -count 100   -interval 2   -timeout 20   -o results/fdroid_run   -is_emulator   -grant_perm
+   96  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+   97  ls -l
+   98  adb -s emulator-5554 shell  pm list packages | grep droidbot
+   99  adb adb -s emulator-5554 install ~/droidbot/droidbot/resources/droidbotApp.apk
+  100  # then verify:
+  101  adb -s emulator-5554 shell pm list packages | grep droidbot
+  102  adb adb -s emulator-5554 install ~/droidbot/droidbot/resources/droidbotApp.apk
+  103  ls -l
+  104  adb adb -s emulator-5554 install droidbot/resources/droidbotApp.apk 
+  105  adb -s emulator-5554 install droidbot/resources/droidbotApp.apk 
+  106  adb -s emulator-5554 install droidbot/resources/droidbotApp.apk adb -s emulator-5554 shell getprop sys.boot_completed
+  107  # Must return 1 before starting droidbot
+  108  adb -s emulator-5554 shell getprop sys.boot_completed
+  109  adb -s emulator-5554 logcat | grep -i droidbot
+  110  adb -s emulator-5554 shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  111  echo $?
+  112  python3 -m droidbot   -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk   -d emulator-5554   -policy bfs_greedy   -count 100   -interval 2   -timeout 20   -o results/fdroid_run   -is_emulator   -grant_perm
+  113  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  114  adb -s emulator-5554 shell pm dump org.fdroid.fdroid | grep -A1 "MAIN"
+  115  adb -s emulator-5554 shell settings put secure enabled_accessibility_services io.github.ylimit.droidbotapp/.DroidBotApp
+  116  adb -s emulator-5554 shell settings put secure accessibility_enabled 1
+  117  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  118  adb -s emulator-5554 shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  119  adb adb -s emulator-5554 install droidbot/resources/droidbotApp.apk adb -s emulator-5554 shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  120  adb -s emulator-5554 shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  121  adb shell pm list packages | grep droidbot
+  122  adb install -r droidbot/resources/droidbotApp.apk
+  123  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  124  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  125  #!/bin/bash
+  126  adb wait-for-device
+  127  adb install -r droidbot/resources/droidbotApp.apk
+  128  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  129  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/corpus/F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  130  adb shell am start -n io.github.ylimit.droidbotapp/.MainActivity
+  131  adb install -r droidbot/resources/droidbotApp.apk
+  132  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  133  adb shell am start -n io.github.ylimit.droidbotapp/.MainActivity
+  134  cd ..
+  135  ls -l
+  136  cd ApkVulFuzz/
+  137  ls -l
+  138  cd Evaluation-SSBSE-2026/
+  139  ls -l
+  140  unzip
+  141  ls -l
+  142  unzip seeds-10March2026_apk-0.tar.gz
+  143  ls -l
+  144  tar -xf seeds-10March2026_apk-0.tar.gz
+  145  ls -l
+  146  cd 
+  147  ls -l
+  148  cd droidbot/
+  149  python3 start.py -a ../ApkVulFuzz/Evaluation-SSBSE-2026/F-Droid_00a40fa8.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  150  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  151  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  152  adb install -r droidbot/resources/droidbotApp.apk
+  153  adb install -r ../F-Droid.apk 
+  154  adb shell ime enable io.github.ylimit.droidbotapp/.DroidBotIME
+  155  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  156  python3 --version
+  157  ls -l
+  158  cd droidbot
+  159  ls -l
+  160  python3 start.py -a ../../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  161  head start.py 
+  162  cd ..
+  163  ls -l
+  164  cd script_samples/
+  165  ls -l
+  166  cd ..
+  167  ls -l
+  168  adb install F-Droid.apk
+  169  adb shell monkey -p org.fdroid.fdroid 50
+  170  cd ..
+  171  adb install F-Droid.apk
+  172  adb shell monkey -p org.fdroid.fdroid 50
+  173  adb devices
+  174  adb shell monkey -p org.fdroid.fdroid 50
+  175  adb install F-Droid.apk
+  176  export QT_QPA_PLATFORM=offscreen
+  177  export ANDROID_SDK_ROOT=$HOME/android-sdk
+  178  export PATH=$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH
+  179  cd droidbot/
+  180  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 20 -o results/fdroid_run -is_emulator -grant_perm
+  181  cd ..
+  182  mkdir -p "$HOME/android-sdk/cmdline-tools"
+  183  export ANDROID_SDK_ROOT="$HOME/android-sdk"
+  184  export ANDROID_HOME="$ANDROID_SDK_ROOT"
+  185  wget https://dl.google.com/android/repository/commandlinetools-linux-13114758_latest.zip
+  186  unzip commandlinetools-linux-13114758_latest.zip
+  187  mkdir -p $HOME/android-sdk/cmdline-tools/latest
+  188  mv cmdline-tools/* $HOME/android-sdk/cmdline-tools/latest/
+  189  export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+  190  export PATH="$ANDROID_SDK_ROOT/emulator:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$PATH"
+  191  ## Optional if you want to install it for good
+  192  cat >> ~/.bashrc <<'EOF'
+  193  export ANDROID_SDK_ROOT="$HOME/android-sdk"
+  194  export ANDROID_HOME="$ANDROID_SDK_ROOT"
+  195  export PATH="$ANDROID_SDK_ROOT/cmdline-tools/latest/bin:$ANDROID_SDK_ROOT/platform-tools:$ANDROID_SDK_ROOT/emulator:$PATH"
+  196  EOF
+  197  source ~/.bashrc
+  198  ## End of optional part
+  199  ls -l
+  200  cd ApkVulFuzz/
+  201  git pull
+  202  git stash
+  203  git pull
+  204  ls -l
+  205  chmod 777 *.sh
+  206  ./setup-machine-part1.sh 
+  207  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy dfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator
+  208  cd ..
+  209  cd droidbot/
+  210  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy dfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator
+  211  adb -s emulator-5554 shell pm list packages | grep -i droidbot || echo "NO_DROIDBOT_PACKAGE"
+  212  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator -grant_perm
+  213  find . -maxdepth 6 -iname "*.apk"
+  214  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy monkey -timeout 10 -o results/fdroid_run_10s -is_emulator -grant_perm
+  215  roidbot.adapter.droidbot_app.EOF
+  216  WARNING:DroidBotAppConn:Restarting droidbot app
+  217  48925
+  218  Traceback (most recent call last):
+  219  droidbot.adapter.droidbot_app.EOF
+  220  WARNING:DroidBotAppConn:Restarting droidbot app
+  221  adb -s emulator-5554 shell pm list packages | grep -i droidbot || echo "NO_DROIDBOT_PACKAGE"
+  222  ls -l
+  223  cd ApkVulFuzz/
+  224  ls -l
+  225  ./setup-machine-part2.sh 
+  226  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator -grant_perm
+  227  cd ..
+  228  ls -l
+  229  cd droidbot/
+  230  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator -grant_perm
+  231  ls -l
+  232  cd ApkVulFuzz/
+  233  ls -l
+  234  ./setup-machine-part2.sh 
+  235  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator -grant_perm
+  236  cd ..
+  237  cd droidbot/
+  238  python3 start.py -a ../F-Droid.apk -d emulator-5554 -policy bfs_greedy -count 1000 -interval 2 -timeout 1800 -o results/fdroid_run -is_emulator -grant_perm
+  239  history
+kevenmen@node0:~/droidbot$ 
