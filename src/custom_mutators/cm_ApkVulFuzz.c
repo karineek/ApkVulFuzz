@@ -83,9 +83,9 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
                        size_t max_size) {
 
     // Check if broken input	
-    if ((!buf) || (buf_size == 0) || (buf_size < 11)) {
+    if (!buf || buf_size < 11) {
 #ifdef TEST_CM
-	    WARNF(">>-6A Odd size of register is: %zu, %zu", actual_in_buf_size, buf_size);
+	    WARNF(">>-6A Odd size of register is: %zu", buf_size);
 #endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
@@ -147,7 +147,7 @@ int main() {
     }
 
     long size = ftell(in);
-	size_t file_size = ftell(in);
+	size_t file_size = (size_t)size;
     if (size < 0) {
         fprintf(stderr, "Error: ftell failed\n");
         fclose(in);
@@ -218,7 +218,7 @@ int main() {
         return 1;
     }
 
-    if (fwrite(buf, 1, size, out) != (size_t)size) {
+    if (fwrite(out_buf, 1, new_size, out) != (size_t)size) {
         fprintf(stderr, "Error: Failed to write output file\n");
         fclose(out);
         free(buf);
@@ -229,6 +229,7 @@ int main() {
     afl_custom_deinit(data);
     fclose(out);
     free(buf);
+	free(out_buf);
   
     return 0;
 }
