@@ -7,6 +7,28 @@ python3 -m pip install --upgrade setuptools
 python3 -m pip install --upgrade pip setuptools wheel networkx Pillow
 python3 -m pip install --user "androguard==3.4.0a1"
 
+## Fuzzing-related requirements:
+sudo rm /usr/bin/cpp /usr/bin/gcc /usr/bin/g++  /usr/bin/gcov  /usr/bin/c++
+sudo rm /usr/local/bin/cpp /usr/local/bin/gcc /usr/local/bin/g++ /usr/local/bin/gcov  /usr/local/bin/c++ /usr/bin/cc
+sudo ln -s /usr/bin/cpp-11 /usr/bin/cpp
+sudo ln -s /usr/bin/gcc-11 /usr/bin/gcc
+sudo ln -s /usr/bin/gcc-11 /usr/bin/cc
+sudo ln -s /usr/bin/g++-11 /usr/bin/g++
+sudo ln -s /usr/bin/g++-11 /usr/bin/c++
+sudo ln -s /usr/bin/gcov-11 /usr/bin/gcov
+
+wget https://apt.llvm.org/llvm.sh
+chmod +x llvm.sh
+sudo ./llvm.sh 13
+sudo ln -s /usr/bin/llvm-config-13 /usr/bin/llvm-config
+
+git clone https://github.com/AFLplusplus/AFLplusplus.git
+cd AFLplusplus
+RUN git checkout f596a297c4de6a5e1a6fb9fbb3b4e18124a24f58
+make all
+sudo make install
+
+## APK related pacakges:
 mkdir -p "$HOME/android-sdk/cmdline-tools"
 export ANDROID_SDK_ROOT="$HOME/android-sdk"
 export ANDROID_HOME="$ANDROID_SDK_ROOT"
