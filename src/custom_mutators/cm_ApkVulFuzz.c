@@ -87,6 +87,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #ifdef TEST_CM
 	    WARNF(">>-6A Odd size of register is: %zu", buf_size);
 #endif
+		perror("Error 1");
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
@@ -97,6 +98,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #ifdef TEST_CM
         WARNF(">>-7A Bad allocation for buffer for mutations. Could not allocate %zu size buffer.", new_size);
 #endif
+		perror("Error 2");
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
     // Copy the original input data
@@ -105,6 +107,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #ifdef TEST_CM
 	    WARNF(">>-7B Bad allocation for data strucuture coming from AFL++");
 #endif
+		perror("Error 3");
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
@@ -115,6 +118,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #ifdef TEST_CM
         WARNF(">>-8-A Bad generation for buffer with mutations.");
 #endif
+		perror("Error 4");
 		if (!new_buf) 
 			free(new_buf);
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
