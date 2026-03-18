@@ -21,7 +21,9 @@ wget https://apt.llvm.org/llvm.sh
 chmod +x llvm.sh
 sudo ./llvm.sh 13
 sudo ln -s /usr/bin/llvm-config-13 /usr/bin/llvm-config
+sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-13 130 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-13
 
+cd ..
 git clone https://github.com/AFLplusplus/AFLplusplus.git
 cd AFLplusplus
 RUN git checkout f596a297c4de6a5e1a6fb9fbb3b4e18124a24f58
