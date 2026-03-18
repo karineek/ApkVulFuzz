@@ -163,6 +163,7 @@ int main() {
     }
 
     long size = ftell(in);
+	size_t file_size = ftell(in);
     if (size < 0) {
         fprintf(stderr, "Error: ftell failed\n");
         fclose(in);
