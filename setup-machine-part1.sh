@@ -26,7 +26,7 @@ sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-13 130 --
 cd ..
 git clone https://github.com/AFLplusplus/AFLplusplus.git
 cd AFLplusplus
-RUN git checkout f596a297c4de6a5e1a6fb9fbb3b4e18124a24f58
+git checkout f596a297c4de6a5e1a6fb9fbb3b4e18124a24f58
 cp ../ApkVulFuzz/src/afl-files/afl-fuzz-init.c src/afl-fuzz-init.c
 make all
 sudo make install
