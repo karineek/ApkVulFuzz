@@ -82,15 +82,16 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
                        size_t add_buf_size,  // add_buf can be NULL
                        size_t max_size) {
 
-    // Check if broken input
-    size_t actual_in_buf_size = strlen((const char *) buf);
-    if ((buf_size < 11) || (actual_in_buf_size < 11)) {
-	      WARNF(">>-6A Odd size of register is: %zu, %zu", actual_in_buf_size, buf_size);
+    // Check if broken input	
+    if ((!buf) || (buf_size == 0) || (buf_size < 11)) {
+#ifdef TEST_CM
+	    WARNF(">>-6A Odd size of register is: %zu, %zu", actual_in_buf_size, buf_size);
+#endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
     // Allocate a new buffer for the edits
-    size_t new_size = actual_in_buf_size; // Size of APK should stay the same.
+    size_t new_size = buf_size; // Size of APK should stay the same.
     uint8_t *new_buf = malloc(new_size);
     if (!new_buf) {
 #ifdef TEST_CM
@@ -110,7 +111,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     // KEM: here we can define 3 mutators: combine one, args mutator and binary mutator.
     bool mutations_rc = mutateBinary(new_buf, data);
     // Check if no buff returned
-    if (!new_buf) || (mutations_rc==0) {
+    if ((!new_buf) || (!mutations_rc)) {
 #ifdef TEST_CM
         WARNF(">>-8-A Bad generation for buffer with mutations.");
 #endif
@@ -123,7 +124,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     *out_buf = new_buf;
 
     // Return mutated
-    return actual_size;
+    return new_size;
 }
 
 // STAB - remove later
@@ -189,7 +190,7 @@ int main() {
     // AFL-style mutation
     u8 *out_buf = NULL;
 
-    size_t max_size = file_size + 4096;   // allow growth (important for fuzzing)
+    size_t max_size = file_size; 
 
     size_t new_size = afl_custom_fuzz(
         data,
