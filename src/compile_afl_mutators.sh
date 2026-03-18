@@ -25,3 +25,6 @@ clang -shared -o cm-ApkVulFuzz.so \
 # Copy outputs
 cp *.o ../../build
 cp *.so ../../build
+
+echo ">> Done."
+ls -l ../../build/
