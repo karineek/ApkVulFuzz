@@ -10,6 +10,6 @@ AFL_CUSTOM_MUTATOR_LIBRARY=./build/cm-ApkVulFuzz.so \
 afl-fuzz -m none -m 50000 -t 99000 \
 -i ApkVulFuzz/Evaluation-SSBSE-2026/corpus/ -o output -- \
 python3 $HOME/droidbot/start.py -a @@ -d emulator-5554 \
--policy bfs_greedy -count 1000 -interval 2 \
--timeout 1800 -o results/fdroid_run \
+-policy bfs_greedy -count 100 -interval 2 \
+-timeout 50 -o results/fdroid_run \
 -is_emulator -grant_perm
