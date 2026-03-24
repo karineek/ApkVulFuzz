@@ -26,6 +26,7 @@ const ApkEntry* find_apk(const char *name) {
 
 // We populate the APK data based on what we have:
 int load_apk_into_mutator(my_mutator_t *data, const char *path) {
+	
 	// OFFSETS: We first populate the offset to fuzz
 	const ApkEntry *entry = find_apk(path);
 	if (!entry) {
@@ -35,6 +36,19 @@ int load_apk_into_mutator(my_mutator_t *data, const char *path) {
 	data->i = entry->start_offset;
     data->j = entry->end_offset;
 
+	
+	// NEW FILE NAME, we give a name to our output APK fuzzed file
+	if (data->fileout_name) { // Safety check to avoid memort leaks
+	    free(data->fileout_name);
+	    data->fileout_name = NULL;
+	}
+	data->fileout_name = build_output_filename(path);
+	if (!data->fileout_name) {
+	    fprintf(stderr, "Error: Failed to create a file name\n");
+	    return -1;
+	}
+
+	
 	// BINARY DATA: We then try to populate the data itself 
     FILE *in = fopen(path, "rb");
     if (!in) {
@@ -71,8 +85,6 @@ int load_apk_into_mutator(my_mutator_t *data, const char *path) {
     data->buf = buf;
     data->buf_size = (size_t)size;
 
-    // Last, we give a name to our output APK fuzzed file
-	
     return 0;
 }
 
