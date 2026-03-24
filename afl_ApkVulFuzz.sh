@@ -25,7 +25,7 @@ AFL_NO_AFFINITY=1 \
 py-afl-fuzz -n -m none -t 99000 \
           -i $HOME/ApkVulFuzz/Evaluation-SSBSE-2026/input \
           -o output -- \
-      $HOME/droidbot/start.py -aa @@ -d emulator-5554 \
+      python3 $HOME/droidbot/start.py -aa @@ -d emulator-5554 \
       -policy bfs_greedy -count 100 -interval 2 \
       -timeout 50 -o results/fdroid_run \
       -is_emulator -grant_perm
