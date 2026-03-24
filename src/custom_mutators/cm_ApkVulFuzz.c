@@ -11,6 +11,15 @@ ApkEntry apk_table[] = {
 
 const size_t apk_table_size = sizeof(apk_table) / sizeof(apk_table[0]);
 
+const ApkEntry* find_apk(const char *name) {
+    for (size_t i = 0; i < apk_table_size; i++) {
+        if (strstr(name, apk_table[i].apk_name) != NULL) {
+            return &apk_table[i];
+        }
+    }
+    return NULL;
+}
+
 ////////////////////////////////
 // Start adding AFL functions //
 ////////////////////////////////
