@@ -141,12 +141,33 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #endif
 		AFL_CUSTOM_MUTATOR_FAILED;
 	}
+
+	// --- Write the new data
+    out = fopen(data->fileout_name, "wb");
+    if (!out) {
+#ifdef TEST_CM
+        WARNF(">>-9-A Error: Failed to create output file: %s.", data->fileout_name);
+#endif
+        AFL_CUSTOM_MUTATOR_FAILED;
+    }
+    if (fwrite(data->out_buf, 1, data->buf_size, out) != data->buf_size) {
+#ifdef TEST_CM
+		WARNF(">>-9-B Error: Failed to write output file.");
+#endif
+		if (out) fclose(out);
+	    AFL_CUSTOM_MUTATOR_FAILED;
+    }
+	if (out) fclose(out);
 	
 	// --- Return filename to AFL ---
 	char *new_buf = malloc(out_len + 1);
-	if (!new_buf)
+	if (!new_buf) {
+#ifdef TEST_CM
+		WARNF(">>-9-C Error: Failed to allocate output register for AFL.");
+#endif
     	AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-
+	}
+	
 	// Else continue with the mutations
 	memcpy(new_buf, data->fileout_name, out_len + 1);
 	*out_buf = (u8 *)new_buf;
