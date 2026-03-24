@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <time.h>
+#include <limits.h>
 
 /////// A table for APK and offsets of AndroidManifest.xml
 ApkEntry apk_table[] = {
@@ -76,7 +77,7 @@ int load_apk_into_mutator(my_mutator_t *data, const char *path) {
 }
 
 // This is a pretty standard function - I wrote it with ChatGPT 24-March-2026
-// It creates a new temp name from the input_path name, no big logic, tones of pointers!
+// It creates a new temp name from the input_path name, no big logic, tons of pointers!
 char *build_output_filename(const char *input_path) {
     // Find last '/' (directory separator)
     const char *slash = strrchr(input_path, '/');
