@@ -157,6 +157,9 @@ int main() {
     //mutateBinary(buf, data);
     // AFL-style mutation
     u8 *out_buf = NULL;
+	uint8_t *buf = data->buf;
+	size_t file_size = data->buf_size;
+	
     size_t max_size = file_size; 
     size_t new_size = afl_custom_fuzz(
         data,
