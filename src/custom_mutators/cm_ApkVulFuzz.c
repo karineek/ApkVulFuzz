@@ -49,16 +49,21 @@ void afl_custom_deinit(my_mutator_t *data) {
     } else {
         // Free out buffer if it is not nullptr
         if (data->out_buf != NULL) {
-        free(data->out_buf);
-    }
-    
-    // Reset afl variable if needed
-    #ifdef AFL_CM
-    data->afl = 0;
-    #endif
-    
-    // Free the main structure (data)
-    free(data);
+	        free(data->out_buf);
+	    }
+
+		// Free the file name
+        if (data->fileout_name != NULL) {
+	        free(data->fileout_name);
+	    }
+	    
+	    // Reset afl variable if needed
+	    #ifdef AFL_CM
+	    data->afl = 0;
+	    #endif
+	    
+	    // Free the main structure (data)
+	    free(data);
     }
 }
 
