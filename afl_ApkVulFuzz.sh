@@ -28,7 +28,7 @@ py-afl-fuzz -m none -t 99000 \
           -o output -- \
       python3 $HOME/droidbot/start.py -aa @@ -d emulator-5554 \
       -policy bfs_greedy -count 100 -interval 2 \
-      -timeout 50 -o results/fdroid_run \
+      -timeout 30 -o results/fdroid_run \
       -is_emulator -grant_perm
 
 ### py-afl-fuzz -i /fuzzer_input_corpus -o /OUTPUTS -t 4000 -- /harnesses/differential_harness.py
