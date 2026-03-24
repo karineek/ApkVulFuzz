@@ -186,7 +186,7 @@ int main() {
         return 1;
     }
 
-    if (fwrite(out_buf, 1, new_size, out) != (size_t)size) {
+	if (fwrite(out_buf, 1, new_size, out) != new_size){ // For AFL style
         fprintf(stderr, "Error: Failed to write output file\n");
         fclose(out);
         free(buf);
