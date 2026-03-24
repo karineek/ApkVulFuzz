@@ -2,8 +2,6 @@
 #include "cm_ApkVulFuzz.h"
 
 /////// A table for APK and offsets of AndroidManifest.xml
-#include "apk_table.h"
-
 ApkEntry apk_table[] = {
     { "F-Droid.apk", 				7401341, 7401341 + 8921 },
     { "flashlight.apk", 			9226856, 9226856 + 7345 },
