@@ -88,7 +88,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
                        size_t add_buf_size,  // add_buf can be NULL
                        size_t max_size) {
 
-    // Check if broken input	
+    // Check if broken input, commonly AFL will have these numbers odd
     if (!buf || buf_size < 5 || max_size < buf_size) {
 #ifdef TEST_CM
 	    WARNF(">>-6A Odd size of register is: %zu", buf_size);
@@ -97,53 +97,60 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     }
 	
 	// Check the buf contains an APK file to begin with!
-	if (strstr(buf, "apk") != NULL) {
+	char path[512];
+	size_t len = (buf_size < sizeof(path) - 1) ? buf_size : sizeof(path) - 1;
+	memcpy(path, buf, len);
+	path[len] = '\0';
+	size_t plen = strlen(path);
+	if (plen < 4 || strcmp(path + plen - 4, ".apk") != 0) {
 	#ifdef TEST_CM
-	    WARNF(">>-6B Invalid file name in register is: %zu", buf);
+	    WARNF(">> Invalid file name: %s", path);
 	#endif
-	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    }
+	    AFL_CUSTOM_MUTATOR_FAILED;
+	}
 
 	// --- Load APK + offsets into mutator ---
-    if (load_apk_into_mutator(data, buf) != 0) {
-		WARNF(">>-6C Error: Failed to load APK into mutator: %zu", buf);;
+    if (load_apk_into_mutator(data, path) != 0) {
+#ifdef TEST_CM
+		WARNF(">>-7A Error: Failed to load APK into mutator: %s", path); // Original apk file
+#endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
+
+	// --- Check APK + offsets into mutator and name are OKAY ---
+	if ((!data->out_buf) || (!data->fileout_name)) {
+#ifdef TEST_CM
+		WARNF(">>-7B Error: no data from load_apk_into_mutator"); // New name of APK file
+#endif
+        AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+    }
+	size_t out_len = strlen(data->fileout_name);
+	if (out_len + 1 > max_size) {
+#ifdef TEST_CM
+        WARNF(">>-7-C Bad generation for buffer with mutations.");
+#endif
+		AFL_CUSTOM_MUTATOR_FAILED;
+	}
 	
-
-    // Allocate a new buffer for the edits
-    size_t new_size = buf_size; // Size of APK should stay the same.
-    uint8_t *new_buf = malloc(new_size);
-    if (!new_buf) {
-#ifdef TEST_CM
-	    WARNF(">>-7A Bad allocation for buffer for mutations. Could not allocate %zu size buffer.", new_size);
-#endif
-	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    }
-    // Copy the original input data
-    memcpy(new_buf, buf, buf_size);
-    if (!data) {
-#ifdef TEST_CM
-	    WARNF(">>-7B Bad allocation for data strucuture coming from AFL++");
-#endif
-	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    }
-
-    // KEM: here we can define 3 mutators: combine one, args mutator and binary mutator.
-    bool mutations_rc = mutateBinary(new_buf, data);
+    // -- Mutate the APK
+    bool mutations_rc = mutateBinary(data->out_buf, data);
     // Check if no buff returned
-    if ((!new_buf) || (!mutations_rc)) {
+    if ((!data->out_buf) || (!mutations_rc)) {
 #ifdef TEST_CM
         WARNF(">>-8-A Bad generation for buffer with mutations.");
 #endif
-	    if (!new_buf) 
-	    	free(new_buf);
-	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-    } 
+		AFL_CUSTOM_MUTATOR_FAILED;
+	}
 	
+	// --- Return filename to AFL ---
+	char *new_buf = malloc(out_len + 1);
+	if (!new_buf)
+    	AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+
 	// Else continue with the mutations
-    *out_buf = new_buf;
-    return new_size;
+	memcpy(new_buf, data->fileout_name, out_len + 1);
+	*out_buf = (u8 *)new_buf;
+	return out_len;
 }
 
 // STAB
