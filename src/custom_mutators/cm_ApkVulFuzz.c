@@ -212,22 +212,9 @@ int main() {
         new_size = max_size - 1;
     ((char *)out_buf)[new_size] = '\0';
 
-    out = fopen((char *)out_buf, "wb");
-    if (!out) {
-        fprintf(stderr, "Error: Failed to create output file: %s\n",
-                (char *)out_buf);
-        goto cleanup;
-    }
-
-    if (fwrite(data->out_buf, 1, data->buf_size, out) != data->buf_size) {
-        fprintf(stderr, "Error: Failed to write output file\n");
-        goto cleanup;
-    }
-
 	printf(">> OUT FILE: %s\n", (char *)out_buf);
 	
 cleanup:
-    if (out) fclose(out);
     if (out_buf) free(out_buf);
     if (data) afl_custom_deinit(data);
 
