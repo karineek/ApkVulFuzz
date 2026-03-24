@@ -1,24 +1,6 @@
 #include "bitflip.h"
 #include "cm_ApkVulFuzz.h"
-
-/////// A table for APK and offsets of AndroidManifest.xml
-ApkEntry apk_table[] = {
-    { "F-Droid.apk", 				7401341, 7401341 + 8921 },
-    { "flashlight.apk", 			9226856, 9226856 + 7345 },
-	{ "happymod.apk", 				9226856, 9226856 + 7345 },
-    { "weather-shalltry-group.apk", 9226856, 9226856 + 7345 }
-};
-
-const size_t apk_table_size = sizeof(apk_table) / sizeof(apk_table[0]);
-
-const ApkEntry* find_apk(const char *name) {
-    for (size_t i = 0; i < apk_table_size; i++) {
-        if (strstr(name, apk_table[i].apk_name) != NULL) {
-            return &apk_table[i];
-        }
-    }
-    return NULL;
-}
+#include "apk.h"
 
 ////////////////////////////////
 // Start adding AFL functions //
@@ -108,6 +90,16 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #endif
 	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
+	// Check the buf contains an apk file to begin with!
+	if (strstr(buf, "apk") != NULL) {
+	#ifdef TEST_CM
+	    WARNF(">>-6B Invalid file name in register is: %zu", buf);
+	#endif
+	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+    }
+	// Try to get the data
+	const char *path = buf;
+	
 
     // Allocate a new buffer for the edits
     size_t new_size = buf_size; // Size of APK should stay the same.
@@ -147,69 +139,20 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 // STAB - remove later
 int main() {
     const char *path = "F-Droid.apk";
-    //uint64_t i = 7401341;
-    //uint64_t j = i + 8921;
-    const ApkEntry *entry = find_apk(path);
-	if (!entry) {
-	    fprintf(stderr, "Error: APK not found in table: %s\n", path);
-	    return 1;
-	}
-	
-	uint64_t i = entry->start_offset;
-	uint64_t j = entry->end_offset;
-	
-    FILE *in = fopen(path, "rb");
-    if (!in) {
-        fprintf(stderr, "Error: Failed to open file: %s\n", path);
-        return 1;
-    }
 
-    // Get file size
-    if (fseek(in, 0, SEEK_END) != 0) {
-        fprintf(stderr, "Error: fseek failed\n");
-        fclose(in);
-        return 1;
-    }
-
-    long size = ftell(in);
-	size_t file_size = (size_t)size;
-    if (size < 0) {
-        fprintf(stderr, "Error: ftell failed\n");
-        fclose(in);
-        return 1;
-    }
-
-    rewind(in);
-
-    // Allocate buffer
-    uint8_t *buf = (uint8_t *)malloc(size);
-    if (!buf) {
-        fprintf(stderr, "Error: malloc failed\n");
-        fclose(in);
-        return 1;
-    }
-
-    // Read file
-    if (fread(buf, 1, size, in) != (size_t)size) {
-        fprintf(stderr, "Error: Failed to read file\n");
-        free(buf);
-        fclose(in);
-        return 1;
-    }
-
-    fclose(in);
-
-    // Mutate
+    // --- Init mutator ---
     my_mutator_t *data = afl_custom_init(NULL, 0);
     if (!data) {
         fprintf(stderr, "Error: afl_custom_init failed\n");
-        free(buf);
         return 1;
     }
-    
-    data->buf_size = size;
-    data->i = i;
-    data->j = j;
+
+    // --- Load APK + offsets into mutator ---
+    if (load_apk_into_mutator(data, path) != 0) {
+        fprintf(stderr, "Error: Failed to load APK into mutator\n");
+        afl_custom_deinit(data);
+        return 1;
+    }
     
     //mutateBinary(buf, data);
     // AFL-style mutation
