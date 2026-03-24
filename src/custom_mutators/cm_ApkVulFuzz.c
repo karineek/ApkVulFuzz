@@ -90,6 +90,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #endif
 	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
+	/*
 	// Check the buf contains an apk file to begin with!
 	if (strstr(buf, "apk") != NULL) {
 	#ifdef TEST_CM
@@ -99,6 +100,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     }
 	// Try to get the data
 	const char *path = buf;
+	*/
 	
 
     // Allocate a new buffer for the edits
