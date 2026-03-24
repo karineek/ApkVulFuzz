@@ -122,18 +122,19 @@ char *build_output_filename(const char *input_path) {
     }
 
     // Timestamp
-    time_t now = time(NULL);
+    struct timespec ts;
+	clock_gettime(CLOCK_REALTIME, &ts);
 
     // Allocate final string
-    size_t out_size = strlen(dir) + strlen(name) + 32;
+    size_t out_size = strlen(dir) + strlen(name) + 64;
     char *out = malloc(out_size);
     if (!out) {
         if (slash) free((void *)dir);
         return NULL;
     }
 
-    snprintf(out, out_size, "%s%s_%ld.apk", dir, name, (long)now);
-
+    snprintf(out, out_size, "%s%s_%ld_%ld.apk", dir, name, (long)ts.tv_sec, ts.tv_nsec);
+	
     if (slash) free((void *)dir);
 
     return out;
