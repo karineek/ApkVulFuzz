@@ -157,9 +157,7 @@ int main() {
     //mutateBinary(buf, data);
     // AFL-style mutation
     u8 *out_buf = NULL;
-
     size_t max_size = file_size; 
-
     size_t new_size = afl_custom_fuzz(
         data,
         buf,
@@ -169,7 +167,6 @@ int main() {
         0,
         max_size
     );
-
     if (!out_buf || new_size == 0) {
         fprintf(stderr, "Error: afl_custom_fuzz failed\n");
         afl_custom_deinit(data);
@@ -179,7 +176,7 @@ int main() {
 
 	
     // Write output
-    FILE *out = fopen("mutated.apk", "wb");
+    FILE *out = fopen(data->fileout_name, "wb");
     if (!out) {
         fprintf(stderr, "Error: Failed to create output file\n");
         free(buf);
