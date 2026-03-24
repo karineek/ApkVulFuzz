@@ -49,21 +49,21 @@ void afl_custom_deinit(my_mutator_t *data) {
     } else {
         // Free out buffer if it is not nullptr
         if (data->out_buf != NULL) {
-	        free(data->out_buf);
-	    }
+            free(data->out_buf);
+        }
 
-		// Free the file name
+        // Free the file name
         if (data->fileout_name != NULL) {
-	        free(data->fileout_name);
-	    }
-	    
-	    // Reset afl variable if needed
-	    #ifdef AFL_CM
-	    data->afl = 0;
-	    #endif
-	    
-	    // Free the main structure (data)
-	    free(data);
+            free(data->fileout_name);
+        }
+        
+        // Reset afl variable if needed
+        #ifdef AFL_CM
+        data->afl = 0;
+        #endif
+        
+        // Free the main structure (data)
+        free(data);
     }
 }
 
@@ -91,47 +91,47 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     // Check if broken input, commonly AFL will have these numbers odd
     if (!buf || buf_size < 5 || max_size < buf_size) {
 #ifdef TEST_CM
-	    WARNF(">>-6A Odd size of register is: %zu", buf_size);
+        WARNF(">>-6A Odd size of register is: %zu", buf_size);
 #endif
-	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+        AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
-	
-	// Check the buf contains an APK file to begin with!
-	char path[512];
-	size_t len = (buf_size < sizeof(path) - 1) ? buf_size : sizeof(path) - 1;
-	memcpy(path, buf, len);
-	path[len] = '\0';
-	size_t plen = strlen(path);
-	if (plen < 4 || strcmp(path + plen - 4, ".apk") != 0) {
-	#ifdef TEST_CM
-	    WARNF(">> Invalid file name: %s", path);
-	#endif
-	    AFL_CUSTOM_MUTATOR_FAILED;
-	}
+    
+    // Check the buf contains an APK file to begin with!
+    char path[512];
+    size_t len = (buf_size < sizeof(path) - 1) ? buf_size : sizeof(path) - 1;
+    memcpy(path, buf, len);
+    path[len] = '\0';
+    size_t plen = strlen(path);
+    if (plen < 4 || strcmp(path + plen - 4, ".apk") != 0) {
+    #ifdef TEST_CM
+        WARNF(">> Invalid file name: %s", path);
+    #endif
+        AFL_CUSTOM_MUTATOR_FAILED;
+    }
 
-	// --- Load APK + offsets into mutator ---
+    // --- Load APK + offsets into mutator ---
     if (load_apk_into_mutator(data, path) != 0) {
 #ifdef TEST_CM
-		WARNF(">>-7A Error: Failed to load APK into mutator: %s", path); // Original apk file
+        WARNF(">>-7A Error: Failed to load APK into mutator: %s", path); // Original apk file
 #endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
 
-	// --- Check APK + offsets into mutator and name are OKAY ---
-	if ((!data->out_buf) || (!data->fileout_name)) {
+    // --- Check APK + offsets into mutator and name are OKAY ---
+    if ((!data->out_buf) || (!data->fileout_name)) {
 #ifdef TEST_CM
-		WARNF(">>-7B Error: no data from load_apk_into_mutator"); // New name of APK file
+        WARNF(">>-7B Error: no data from load_apk_into_mutator"); // New name of APK file
 #endif
         AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
-	size_t out_len = strlen(data->fileout_name);
-	if (out_len + 1 > max_size) {
+    size_t out_len = strlen(data->fileout_name);
+    if (out_len + 1 > max_size) {
 #ifdef TEST_CM
         WARNF(">>-7-C Bad generation for buffer with mutations.");
 #endif
-		AFL_CUSTOM_MUTATOR_FAILED;
-	}
-	
+        AFL_CUSTOM_MUTATOR_FAILED;
+    }
+    
     // -- Mutate the APK
     bool mutations_rc = mutateBinary(data->out_buf, data);
     // Check if no buff returned
@@ -139,11 +139,11 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #ifdef TEST_CM
         WARNF(">>-8-A Bad generation for buffer with mutations.");
 #endif
-		AFL_CUSTOM_MUTATOR_FAILED;
-	}
+        AFL_CUSTOM_MUTATOR_FAILED;
+    }
 
-	// --- Write the new data
-	FILE *out = fopen(data->fileout_name, "wb");
+    // --- Write the new data
+    FILE *out = fopen(data->fileout_name, "wb");
     if (!out) {
 #ifdef TEST_CM
         WARNF(">>-9-A Error: Failed to create output file: %s.", data->fileout_name);
@@ -152,35 +152,35 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     }
     if (fwrite(data->out_buf, 1, data->buf_size, out) != data->buf_size) {
 #ifdef TEST_CM
-		WARNF(">>-9-B Error: Failed to write output file.");
+        WARNF(">>-9-B Error: Failed to write output file.");
 #endif
-		if (out) fclose(out);
-	    AFL_CUSTOM_MUTATOR_FAILED;
+        if (out) fclose(out);
+        AFL_CUSTOM_MUTATOR_FAILED;
     }
-	if (out) fclose(out);
-	
-	// --- Return filename to AFL ---
-	char *new_buf = malloc(out_len + 1);
-	if (!new_buf) {
+    if (out) fclose(out);
+    
+    // --- Return filename to AFL ---
+    char *new_buf = malloc(out_len + 1);
+    if (!new_buf) {
 #ifdef TEST_CM
-		WARNF(">>-9-C Error: Failed to allocate output register for AFL.");
+        WARNF(">>-9-C Error: Failed to allocate output register for AFL.");
 #endif
-    	AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
-	}
-	
-	// Else continue with the mutations
-	memcpy(new_buf, data->fileout_name, out_len + 1);
-	*out_buf = (u8 *)new_buf;
-	return out_len;
+        AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+    }
+    
+    // Else continue with the mutations
+    memcpy(new_buf, data->fileout_name, out_len + 1);
+    *out_buf = (u8 *)new_buf;
+    return out_len;
 }
 
 // STAB
 int main() {
-	// Init data for STAB
+    // Init data for STAB
     const char *path = "F-Droid.apk";
     uint8_t *buf = (uint8_t *)path;
     size_t file_size = strlen(path);
-	u8 *out_buf = NULL;
+    u8 *out_buf = NULL;
     size_t max_size = 512;
 
     my_mutator_t *data = afl_custom_init(NULL, 0);
@@ -189,7 +189,7 @@ int main() {
         return 1;
     }
 
-	// FUZZ
+    // FUZZ
     size_t new_size = afl_custom_fuzz(
         data,
         buf,
@@ -200,7 +200,7 @@ int main() {
         max_size
     );
 
-	// Write results if all OK (first check)
+    // Write results if all OK (first check)
     if (!out_buf || new_size == 0) {
         fprintf(stderr, "Error: afl_custom_fuzz failed\n");
         goto cleanup;
@@ -211,8 +211,8 @@ int main() {
         new_size = max_size - 1;
     ((char *)out_buf)[new_size] = '\0';
 
-	printf(">> OUT FILE: %s\n", (char *)out_buf);
-	
+    printf(">> OUT FILE: %s\n", (char *)out_buf);
+    
 cleanup:
     if (out_buf) free(out_buf);
     if (data) afl_custom_deinit(data);
