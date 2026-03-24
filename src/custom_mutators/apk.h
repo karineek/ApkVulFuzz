@@ -1,11 +1,5 @@
-#include <stdint.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdio.h>
-#include <stddef.h>
-#include <time.h>
-#include <limits.h>
-#include <stdint.h>
+#include <stdint.h>   // uint64_t
+#include <stddef.h>   // size_t
 
 #ifndef _APK_DS_H
 #define _APK_DS_H
