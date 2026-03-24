@@ -33,15 +33,6 @@ typedef struct my_mutator {
 
 } my_mutator_t;
 
-typedef struct {
-    const char *apk_name;
-    uint64_t start_offset;
-    uint64_t end_offset;
-} ApkEntry;
-extern ApkEntry apk_table[];
-extern const size_t apk_table_size;
-const ApkEntry* find_apk(const char *name);
-
 // AFL++ Interface functions
 my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed);
 void afl_custom_deinit(my_mutator_t *data);
