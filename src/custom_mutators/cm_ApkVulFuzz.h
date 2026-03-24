@@ -40,6 +40,7 @@ typedef struct {
 } ApkEntry;
 extern ApkEntry apk_table[];
 extern const size_t apk_table_size;
+const ApkEntry* find_apk(const char *name);
 
 // AFL++ Interface functions
 my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed);
