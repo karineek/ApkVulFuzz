@@ -11,3 +11,5 @@ AFL_NO_AFFINITY=1 \
       -policy bfs_greedy -count 100 -interval 2 \
       -timeout 50 -o results/fdroid_run \
       -is_emulator -grant_perm
+
+## python3 /users/kevenmen/droidbot/start.py -aa /users/kevenmen/AFLplusplus/output/.cur_input -d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 50 -o results/fdroid_run -is_emulator -grant_perm
