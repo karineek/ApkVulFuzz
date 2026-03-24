@@ -95,17 +95,20 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 #endif
 	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
-	/*
-	// Check the buf contains an apk file to begin with!
+	
+	// Check the buf contains an APK file to begin with!
 	if (strstr(buf, "apk") != NULL) {
 	#ifdef TEST_CM
 	    WARNF(">>-6B Invalid file name in register is: %zu", buf);
 	#endif
 	    AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
     }
-	// Try to get the data
-	const char *path = buf;
-	*/
+
+	// --- Load APK + offsets into mutator ---
+    if (load_apk_into_mutator(data, buf) != 0) {
+		WARNF(">>-6C Error: Failed to load APK into mutator: %zu", buf);;
+        AFL_CUSTOM_MUTATOR_FAILED; // We cannot work with this
+    }
 	
 
     // Allocate a new buffer for the edits
@@ -143,31 +146,23 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     return new_size;
 }
 
-// STAB - remove later
+// STAB
 int main() {
+	// Init data for STAB
     const char *path = "F-Droid.apk";
+    uint8_t *buf = (uint8_t *)path;
+    size_t file_size = strlen(path);
+	u8 *out_buf = NULL;
+    FILE *out = NULL;
+    size_t max_size = 512;
 
-    // --- Init mutator ---
     my_mutator_t *data = afl_custom_init(NULL, 0);
     if (!data) {
         fprintf(stderr, "Error: afl_custom_init failed\n");
         return 1;
     }
 
-    // --- Load APK + offsets into mutator ---
-    if (load_apk_into_mutator(data, path) != 0) {
-        fprintf(stderr, "Error: Failed to load APK into mutator\n");
-        afl_custom_deinit(data);
-        return 1;
-    }
-    
-    //mutateBinary(buf, data);
-    // AFL-style mutation
-    u8 *out_buf = NULL;
-	uint8_t *buf = data->out_buf;
-	size_t file_size = data->buf_size;
-	
-    size_t max_size = file_size; 
+	// FUZZ
     size_t new_size = afl_custom_fuzz(
         data,
         buf,
@@ -177,33 +172,36 @@ int main() {
         0,
         max_size
     );
+
+	// Write results if all OK (first check)
     if (!out_buf || new_size == 0) {
         fprintf(stderr, "Error: afl_custom_fuzz failed\n");
-        afl_custom_deinit(data);
-        free(buf);
-        return 1;
+        goto cleanup;
     }
 
-	
-    // Write output
-    FILE *out = fopen(data->fileout_name, "wb");
+    // safe null termination
+    if (new_size >= max_size)
+        new_size = max_size - 1;
+    ((char *)out_buf)[new_size] = '\0';
+
+    out = fopen((char *)out_buf, "wb");
     if (!out) {
-        fprintf(stderr, "Error: Failed to create output file\n");
-        free(buf);
-        return 1;
+        fprintf(stderr, "Error: Failed to create output file: %s\n",
+                (char *)out_buf);
+        goto cleanup;
     }
 
-	if (fwrite(out_buf, 1, new_size, out) != new_size){ // For AFL style
+    if (fwrite(data->out_buf, 1, data->buf_size, out) != data->buf_size) {
         fprintf(stderr, "Error: Failed to write output file\n");
-        fclose(out);
-        free(buf);
-        return 1;
+        goto cleanup;
     }
 
-    // cleanup
-    afl_custom_deinit(data);
-    fclose(out);
-	free(out_buf);
-  
+	printf(">> OUT FILE: %s\n", (char *)out_buf);
+	
+cleanup:
+    if (out) fclose(out);
+    if (out_buf) free(out_buf);
+    if (data) afl_custom_deinit(data);
+
     return 0;
 }
