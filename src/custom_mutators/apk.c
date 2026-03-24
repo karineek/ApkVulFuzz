@@ -7,10 +7,10 @@
 
 /////// A table for APK and offsets of AndroidManifest.xml
 ApkEntry apk_table[] = {
-    { "F-Droid.apk", 				7401341, 7401341 + 8921 },
-    { "flashlight.apk", 			9226856, 9226856 + 7345 },
-	{ "happymod.apk", 				9226856, 9226856 + 7345 },
-    { "weather-shalltry-group.apk", 9226856, 9226856 + 7345 }
+    { "F-Droid", 				7401341, 7401341 + 8921 },
+    { "flashlight", 			9226856, 9226856 + 7345 },
+	{ "happymod", 				9226856, 9226856 + 7345 },
+    { "weather-shalltry-group", 9226856, 9226856 + 7345 }
 };
 
 const size_t apk_table_size = sizeof(apk_table) / sizeof(apk_table[0]);
