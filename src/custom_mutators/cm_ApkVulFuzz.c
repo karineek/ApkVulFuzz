@@ -140,9 +140,17 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 // STAB - remove later
 int main() {
     const char *path = "F-Droid.apk";
-    uint64_t i = 7401341;
-    uint64_t j = i + 8921;
-
+    //uint64_t i = 7401341;
+    //uint64_t j = i + 8921;
+    const ApkEntry *entry = find_apk(path);
+	if (!entry) {
+	    fprintf(stderr, "Error: APK not found in table: %s\n", path);
+	    return 1;
+	}
+	
+	uint64_t i = entry->start_offset;
+	uint64_t j = entry->end_offset;
+	
     FILE *in = fopen(path, "rb");
     if (!in) {
         fprintf(stderr, "Error: Failed to open file: %s\n", path);
