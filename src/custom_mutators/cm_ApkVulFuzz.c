@@ -198,7 +198,6 @@ int main() {
     // cleanup
     afl_custom_deinit(data);
     fclose(out);
-    free(buf);
 	free(out_buf);
   
     return 0;
