@@ -20,16 +20,18 @@
 #define AFL_CUSTOM_MUTATOR_FAILED { *out_buf = NULL; return 0; } // We cannot work with this
 
 typedef struct my_mutator {
-
+    uint64_t i;            // Offset to fuzz from 
+    uint64_t j;            // Offset to fuzz to 
+    
   #ifdef AFL_CM
     afl_state_t *afl;
   #endif
-    char *fileout_name;    // The output file name if mutation okay
-    char *out_buf;         // The whole seed in a buffer
-    uint64_t buf_size;     // Full size in bytes of the APK
-    uint64_t i;            // Offset to fuzz from 
-    uint64_t j;            // Offset to fuzz to 
 
+    char *fileout_name;    // The output file name if mutation okay
+
+    uint64_t buf_size;     // Full size in bytes of the APK
+    char *out_buf;         // The whole seed in a buffer
+   
 } my_mutator_t;
 
 // AFL++ Interface functions
