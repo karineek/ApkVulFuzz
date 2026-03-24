@@ -143,7 +143,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 	}
 
 	// --- Write the new data
-    out = fopen(data->fileout_name, "wb");
+	FILE *out = fopen(data->fileout_name, "wb");
     if (!out) {
 #ifdef TEST_CM
         WARNF(">>-9-A Error: Failed to create output file: %s.", data->fileout_name);
@@ -181,7 +181,6 @@ int main() {
     uint8_t *buf = (uint8_t *)path;
     size_t file_size = strlen(path);
 	u8 *out_buf = NULL;
-    FILE *out = NULL;
     size_t max_size = 512;
 
     my_mutator_t *data = afl_custom_init(NULL, 0);
