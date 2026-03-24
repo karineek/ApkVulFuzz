@@ -1,4 +1,8 @@
 #include "apk.h"
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <time.h>
 
 /////// A table for APK and offsets of AndroidManifest.xml
 ApkEntry apk_table[] = {
@@ -69,4 +73,55 @@ int load_apk_into_mutator(my_mutator_t *data, const char *path) {
     // Last, we give a name to our output APK fuzzed file
 	
     return 0;
+}
+
+// This is a pretty standard function - I wrote it with ChatGPT 24-March-2026
+// It creates a new temp name from the input_path name, no big logic, tones of pointers!
+char *build_output_filename(const char *input_path) {
+    // Find last '/' (directory separator)
+    const char *slash = strrchr(input_path, '/');
+
+    const char *dir = "";
+    const char *base = input_path;
+
+    if (slash) {
+        size_t dir_len = slash - input_path + 1;
+
+        char *dir_buf = malloc(dir_len + 1);
+        if (!dir_buf) return NULL;
+
+        strncpy(dir_buf, input_path, dir_len);
+        dir_buf[dir_len] = '\0';
+
+        dir = dir_buf;
+        base = slash + 1;
+    }
+
+    // Copy basename so we can modify it
+    char name[512];
+    strncpy(name, base, sizeof(name));
+    name[sizeof(name) - 1] = '\0';
+
+    // Remove ".apk"
+    char *dot = strrchr(name, '.');
+    if (dot && strcmp(dot, ".apk") == 0) {
+        *dot = '\0';
+    }
+
+    // Timestamp
+    time_t now = time(NULL);
+
+    // Allocate final string
+    size_t out_size = strlen(dir) + strlen(name) + 32;
+    char *out = malloc(out_size);
+    if (!out) {
+        if (slash) free((void *)dir);
+        return NULL;
+    }
+
+    snprintf(out, out_size, "%s%s_%ld.apk", dir, name, (long)now);
+
+    if (slash) free((void *)dir);
+
+    return out;
 }
