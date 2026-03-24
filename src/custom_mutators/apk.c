@@ -82,7 +82,7 @@ int load_apk_into_mutator(my_mutator_t *data, const char *path) {
     fclose(in);
 
 	// We now populate also the binary content to mutate
-    data->buf = buf;
+    data->out_buf = buf;
     data->buf_size = (size_t)size;
 
     return 0;
