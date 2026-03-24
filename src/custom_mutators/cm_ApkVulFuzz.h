@@ -15,6 +15,7 @@
 #include <stddef.h>
 #include <time.h>
 #include <limits.h>
+#include <stdint.h>
 
 #define AFL_CUSTOM_MUTATOR_FAILED { *out_buf = NULL; return 0; } // We cannot work with this
 
@@ -31,6 +32,14 @@ typedef struct my_mutator {
     uint64_t j; // Offset to fuzz to 
 
 } my_mutator_t;
+
+typedef struct {
+    const char *apk_name;
+    uint64_t start_offset;
+    uint64_t end_offset;
+} ApkEntry;
+extern ApkEntry apk_table[];
+extern const size_t apk_table_size;
 
 // AFL++ Interface functions
 my_mutator_t *afl_custom_init(afl_state_t *afl, unsigned int seed);
