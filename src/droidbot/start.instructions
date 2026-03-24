@@ -1,8 +1,20 @@
+#!/usr/bin/python3
+import afl
+
+....
+
 # Need to add to the script the following code:
     parser.add_argument("-a", action="store", dest="apk_path", required=False,
                         help="The file path to target APK")
     parser.add_argument("-aa", action="store", dest="apk_file_path", required=False,
                         help="The file path to target APK")
+
+....
+
+# first line in main
+    afl.init()
+
+....
 
 # Then in main:
 
@@ -12,7 +24,7 @@
 
     if opts.apk_file_path:
         if not os.path.exists(opts.apk_file_path):
-            print("apk_file_path does not exist.")
+            print(f"apk_file_path does not exist. {opts.apk_file_path}")
             return
 
         with open(opts.apk_file_path) as f:
