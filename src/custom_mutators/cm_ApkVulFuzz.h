@@ -24,12 +24,11 @@ typedef struct my_mutator {
   #ifdef AFL_CM
     afl_state_t *afl;
   #endif
-  
-    char *out_buf; // The whole seed in a buffer
-  
-    uint64_t buf_size; // Full size in bytes of the APK
-    uint64_t i; // Offset to fuzz from 
-    uint64_t j; // Offset to fuzz to 
+    char *fileout_name;    // The output file name if mutation okay
+    char *out_buf;         // The whole seed in a buffer
+    uint64_t buf_size;     // Full size in bytes of the APK
+    uint64_t i;            // Offset to fuzz from 
+    uint64_t j;            // Offset to fuzz to 
 
 } my_mutator_t;
 
