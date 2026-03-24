@@ -1,0 +1,20 @@
+# Need to add to the script the following code:
+    parser.add_argument("-a", action="store", dest="apk_path", required=False,
+                        help="The file path to target APK")
+    parser.add_argument("-aa", action="store", dest="apk_file_path", required=False,
+                        help="The file path to target APK")
+
+# Then in main:
+
+    if opts.apk_path and opts.apk_file_path:
+        print("Provide only one of -a or -aa.")
+        return
+
+    if opts.apk_file_path:
+        if not os.path.exists(opts.apk_file_path):
+            print("apk_file_path does not exist.")
+            return
+
+        with open(opts.apk_file_path) as f:
+            opts.apk_path = f.read().strip()
+            opts.apk_path = os.path.expandvars(opts.apk_path)
