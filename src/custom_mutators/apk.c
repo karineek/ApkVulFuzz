@@ -121,6 +121,28 @@ char *build_output_filename(const char *input_path) {
         *dot = '\0';
     }
 
+    // Remove the old seed number
+    // Strip trailing _<digits> or _<digits>_<digits>
+	char *p = name + strlen(name) - 1;
+	
+    while (p > name && (*p >= '0' && *p <= '9')) {
+        p--;
+    }
+	
+    if (*p == '_') {
+        *p = '\0';
+	
+        // handle second numeric part (_sec_nsec)
+	    p--;
+	    while (p > name && (*p >= '0' && *p <= '9')) {
+	        p--;
+	    }
+	
+	    if (*p == '_') {
+	        *p = '\0';
+	    }
+	}
+
     // Timestamp
     struct timespec ts;
 	clock_gettime(CLOCK_REALTIME, &ts);
