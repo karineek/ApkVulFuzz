@@ -1,6 +1,5 @@
-#include "bitflip.h"
 #include "cm_ApkVulFuzz.h"
-#include "apk.h"
+#include "black_box_fuzz.h"
 
 #include <sys/stat.h>
 #include <sys/types.h>
@@ -92,7 +91,7 @@ static int run_target(const char *input_path) {
     } else if (WIFSIGNALED(status)) {
         printf("Crashed: %s (signal=%d)\n", input_path, WTERMSIG(status));
     } else {
-        printf("Ended უცlearly: %s\n", input_path);
+        printf("Ended alearly: %s\n", input_path);
     }
 
     return 0;
