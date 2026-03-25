@@ -21,7 +21,7 @@ AFL_CUSTOM_MUTATOR_ONLY=1 \
 AFL_SHUFFLE_QUEUE=1 \
 AFL_SKIP_CPUFREQ=1 \
 AFL_NO_AFFINITY=1 \
-AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so 
+AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so \
 py-afl-fuzz -m none -t 99000 \
           -i $HOME/ApkVulFuzz/Evaluation-SSBSE-2026/input \
           -o output -- \
