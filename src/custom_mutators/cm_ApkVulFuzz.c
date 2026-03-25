@@ -1,7 +1,6 @@
 #include "bitflip.h"
 #include "cm_ApkVulFuzz.h"
 #include "apk.h"
-#include "black_box_fuzz.h"
 
 ////////////////////////////////
 // Start adding AFL functions //
@@ -176,72 +175,7 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
 }
 
 // STAB
-int main(int argc, char **argv) {
-    // Check we have the folders we need to fuzz
-    if (argc < 3) {
-        fprintf(stderr, ">> (ApkVulFuzz) Usage: %s <in_folder> <out_folder>\n", argv[0]);
-        return 1;
-    }
-    const char *in_folder = argv[1];  // First arg
-    const char *out_folder = argv[2]; // Second arg
-
-    // The sub-folders for the fuzzing AFL style
-    char queue_folder[1024];
-    char hang_folder[1024];
-    char crash_folder[1024];
-    snprintf(queue_folder, sizeof(queue_folder), "%s/queue", out_folder);
-    snprintf(hang_folder, sizeof(hang_folder), "%s/hang", out_folder);
-    snprintf(crash_folder, sizeof(crash_folder), "%s/crash", out_folder);
-
-    // Create out_folder, queue_folder, hang_folder and crash_folder if not exists
-    if (ensure_dir(out_folder) != 0) return 1;
-    if (ensure_dir(queue_folder) != 0) return 1;
-    if (ensure_dir(hang_folder) != 0) return 1;
-    if (ensure_dir(crash_folder) != 0) return 1;
-
-    printf(">> (ApkVulFuzz) Input folder : %s\n", in_folder);
-    printf(">> (ApkVulFuzz) Output folder: %s\n", out_folder);
-    printf(">> (ApkVulFuzz) Queue folder : %s\n", queue_folder);
-    printf(">> (ApkVulFuzz) Hang folder  : %s\n", hang_folder);
-    printf(">> (ApkVulFuzz) Crash folder : %s\n", crash_folder);
-
-    // Set fuzzing target:
-    const char *sut = "/users/kevenmen/droidbot/start.py -aa" 
-    char path_apk[1024]; // To be used by the fuzzing loop
-    const char *sut_args = "-d emulator-5554 -policy bfs_greedy -count 100 -interval 2 -timeout 50 -o results/fdroid_run -is_emulator -grant_perm"
-    // Run: per input file, put its name (file name) in path, and then run: sut + path + sut_args
-    DIR *dir = opendir(in_folder);
-    if (!dir) {
-        perror("opendir");
-        return 1;
-    }
-    struct dirent *entry;
-    while ((entry = readdir(dir)) != NULL) {
-        /* skip "." and ".." */
-        if (strcmp(entry->d_name, ".") == 0 || strcmp(entry->d_name, "..") == 0) {
-            continue;
-        }
-
-        /* build full input path */
-        int n = snprintf(path_apk, sizeof(path_apk), "%s/%s", in_folder, entry->d_name);
-        if (n < 0 || n >= (int)sizeof(path_apk)) {
-            fprintf(stderr, "Path too long, skipping: %s\n", entry->d_name);
-            continue;
-        }
-
-        /* only run on regular files */
-        if (!is_regular_file(path_apk)) {
-            continue;
-        }
-
-        printf("Running target on: %s\n", path_apk);
-
-        if (run_target(path_apk) != 0) {
-            fprintf(stderr, "Failed to run target on: %s\n", path_apk);
-        }
-    }
-  
-  
+int main(int argc, char **argv) {  
     // Init data for STAB
     const char *path = "F-Droid.apk";
     uint8_t *buf = (uint8_t *)path;
