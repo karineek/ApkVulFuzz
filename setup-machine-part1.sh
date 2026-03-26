@@ -6,6 +6,7 @@ python3 -m pip install --upgrade pip
 python3 -m pip install --upgrade setuptools
 python3 -m pip install --upgrade pip setuptools wheel networkx Pillow
 python3 -m pip install --user "androguard==3.4.0a1"
+python3 -m pip install python-afl
 
 ## Fuzzing-related requirements:
 sudo rm /usr/bin/cpp /usr/bin/gcc /usr/bin/g++  /usr/bin/gcov  /usr/bin/c++
