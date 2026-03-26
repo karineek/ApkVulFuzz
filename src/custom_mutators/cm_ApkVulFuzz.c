@@ -101,10 +101,11 @@ size_t afl_custom_fuzz(my_mutator_t *data, uint8_t *buf, size_t buf_size,
     size_t len = (buf_size < sizeof(path) - 1) ? buf_size : sizeof(path) - 1;
     memcpy(path, buf, len);
     path[len] = '\0';
+    path[strcspn(path, "\r\n")] = '\0';
     size_t plen = strlen(path);
     if (plen < 4 || strcmp(path + plen - 4, ".apk") != 0) {
     #ifdef TEST_CM
-        WARNF(">> Invalid file name: %s", path);
+        WARNF(">>-6B Invalid file name: <%s>", path);
     #endif
         AFL_CUSTOM_MUTATOR_FAILED;
     }
