@@ -7,12 +7,12 @@
 
 /////// A table for APK and offsets of AndroidManifest.xml
 ApkEntry apk_table[] = {
-    { "ademar-textlauncher-10", 					7401341, 7401341 + 8921 },
-    { "com-gcstar-scanner-1", 						7401341, 7401341 + 8921 },
-    { "com-gcstar-viewer-12", 						7401341, 7401341 + 8921 },
-    { "com-java-SmokeReducer-1", 					7401341, 7401341 + 8921 },
-    { "com-martinmimigames-simplefileexplorer-20",	7401341, 7401341 + 8921 },
-    { "com-omgodse-notally-56", 					7401341, 7401341 + 8921 },
+    { "ademar-textlauncher-10", 					  4602,  4602 + 1037 },
+    { "com-gcstar-scanner-1", 						2463, 2463 + 617 },
+    { "com-gcstar-viewer-12", 						3998, 3998 + 984 },
+    { "com-java-SmokeReducer-1", 					51861, 51861 + 727 },
+    { "com-martinmimigames-simplefileexplorer-20",	17415, 17415 + 1230 },
+    { "com-omgodse-notally-56", 					1079935, 1079935 + 3513 },
     { "com-page-bizzle-2", 							7401341, 7401341 + 8921 },
     { "com-trianguloy-clipboardeditor-9", 			7401341, 7401341 + 8921 },
     { "dev-pranav-applock-221", 					7401341, 7401341 + 8921 },
