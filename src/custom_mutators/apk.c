@@ -7,10 +7,24 @@
 
 /////// A table for APK and offsets of AndroidManifest.xml
 ApkEntry apk_table[] = {
-    { "F-Droid", 				7401341, 7401341 + 8921 },
-    { "flashlight", 			9226856, 9226856 + 7345 },
-	{ "happymod", 				9226856, 9226856 + 7345 },
-    { "weather-shalltry-group", 9226856, 9226856 + 7345 }
+    { "ademar-textlauncher-10", 					7401341, 7401341 + 8921 },
+    { "com-gcstar-scanner-1", 						7401341, 7401341 + 8921 },
+    { "com-gcstar-viewer-12", 						7401341, 7401341 + 8921 },
+    { "com-java-SmokeReducer-1", 					7401341, 7401341 + 8921 },
+    { "com-martinmimigames-simplefileexplorer-20",	7401341, 7401341 + 8921 },
+    { "com-omgodse-notally-56", 					7401341, 7401341 + 8921 },
+    { "com-page-bizzle-2", 							7401341, 7401341 + 8921 },
+    { "com-trianguloy-clipboardeditor-9", 			7401341, 7401341 + 8921 },
+    { "dev-pranav-applock-221", 					7401341, 7401341 + 8921 },
+    { "dubrowgn-wattz-20", 							7401341, 7401341 + 8921 },
+    { "eu-hxreborn-remembermysort-300", 			7401341, 7401341 + 8921 },
+    { "F-Droid", 									7401341, 7401341 + 8921 },
+    { "flashlight", 								9226856, 9226856 + 7345 },
+    { "happymod", 									9226856, 9226856 + 7345 },
+    { "me-velc-devqs-3", 							7401341, 7401341 + 8921 },
+    { "org-bc-bd-mrwhite-6", 						7401341, 7401341 + 8921 },
+    { "org-billthefarmer-editor-194", 				7401341, 7401341 + 8921 },
+    { "weather-shalltry-group", 					9226856, 9226856 + 7345 }
 };
 
 const size_t apk_table_size = sizeof(apk_table) / sizeof(apk_table[0]);
