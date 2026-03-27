@@ -15,7 +15,11 @@ env \
         -timeout 50 -o results/fdroid_run \
         -is_emulator -grant_perm
 
+  
+
+
 env \
+  AFL_DEBUG=1 \
   LD_LIBRARY_PATH=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android \
   LD_PRELOAD=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android/libadb.so.0 \
   AFL_PRELOAD=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android/libadb.so.0 \
