@@ -47,3 +47,18 @@ env \
       -policy bfs_greedy -count 100 -interval 2 \
       -timeout 30 -o results/fdroid_run \
       -is_emulator -grant_perm
+
+
+env \
+  AFL_SKIP_CPUFREQ=1 \
+  AFL_SKIP_BIN_CHECK=1 \
+  AFL_CUSTOM_MUTATOR_ONLY=1 \
+  AFL_SHUFFLE_QUEUE=1 \
+  AFL_CUSTOM_MUTATOR_LIBRARY="$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so" \
+  py-afl-fuzz -m none -t 99000 \
+    -i input \
+    -o output -- \
+    python3 "$HOME/droidbot/start.py" -aa @@ -d emulator-5554 \
+      -policy bfs_greedy -count 100 -interval 2 \
+      -timeout 30 -o results/fdroid_run \
+      -is_emulator -grant_perm
