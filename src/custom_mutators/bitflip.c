@@ -30,22 +30,24 @@ bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
         seeded = 1;
     }
 
-    uint64_t off = i + (rand() % (j - i));
-    int bit = rand() % 8;
+    max_iterations = (rand() % (50)) + 1;
+    for (i = 0; i < max_iterations; i++) {
+        uint64_t off = i + (rand() % (j - i));
+        int bit = rand() % 8;
 
-    uint8_t mask = (uint8_t)(1u << bit);
+        uint8_t mask = (uint8_t)(1u << bit);
 
-    uint8_t old_byte = new_buf[off];
-    uint8_t new_byte = (uint8_t)(old_byte ^ mask);
-    new_buf[off] = new_byte;
+        uint8_t old_byte = new_buf[off];
+        uint8_t new_byte = (uint8_t)(old_byte ^ mask);
+        new_buf[off] = new_byte;
 
-    #ifdef TEST_CM
-    printf(">> (mutateBinary) Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
-           bit,
-           (unsigned long long)off,
-           old_byte,
-           new_byte);
-    #endif
-  
+        #ifdef TEST_CM
+        printf(">> (mutateBinary) Flipped bit %d at byte offset %llu: 0x%02x -> 0x%02x\n",
+               bit,
+               (unsigned long long)off,
+               old_byte,
+               new_byte);
+        #endif
+    }
     return true;   
 }
