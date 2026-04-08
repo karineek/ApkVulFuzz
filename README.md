@@ -81,7 +81,7 @@ Which then returns something like this:
 ```
 Android Debug Bridge version 1.0.41
 Version 37.0.0-14910828
-Installed as /users/kevenmen/android-sdk/platform-tools/adb
+Installed as /users/anon/android-sdk/platform-tools/adb
 Running on Linux 5.15.0-168-generic (x86_64)
 [=======================================] 100% Computing updates...             
 Installed packages:
@@ -188,7 +188,7 @@ Then run:
 adb shell getprop sys.boot_completed
 adb kill-server
 adb start-server
-adb install /users/kevenmen/droidbot/droidbot/resources/droidbotApp.apk
+adb install /users/anon/droidbot/droidbot/resources/droidbotApp.apk
 adb shell settings put secure enabled_accessibility_services io.github.ylimit.droidbotapp/io.github.privacystreams.accessibility.PSAccessibilityService
 adb shell settings put secure accessibility_enabled 1
 pkill -f start.py
