@@ -1,11 +1,11 @@
-kevenmen@node0:~/droidbot$ history
+ @node0:~/droidbot$ history
     1  ls -l
     2  cd ApkVulFuzz/
     3  ls -l
     4  ./setup-machine-part1.sh 
     5  group
     6  groups
-    7  git clone https://github.com/karineek/ApkVulFuzz.git
+    7  git clone https://github.com/anonek/ApkVulFuzz.git
     8  ls -l
     9  cd ApkVulFuzz/
    10  ls -l
