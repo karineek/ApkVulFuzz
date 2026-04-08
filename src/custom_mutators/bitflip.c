@@ -30,7 +30,7 @@ bool mutateBinary(uint8_t *new_buf, my_mutator_t *data) {
         seeded = 1;
     }
 
-    max_iterations = (rand() % (50)) + 1;
+    int max_iterations = (rand() % (50)) + 1;
     for (i = 0; i < max_iterations; i++) {
         uint64_t off = i + (rand() % (j - i));
         int bit = rand() % 8;
