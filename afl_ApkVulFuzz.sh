@@ -1,4 +1,41 @@
 env \
+  LD_LIBRARY_PATH="~/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android" \
+  AFL_PRELOAD="~/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android/libadb.so.0" \
+
+env \
+  AFL_TARGET_ENV="LD_LIBRARY_PATH=~/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android" \
+  AFL_SKIP_CPUFREQ=1 \
+  AFL_CUSTOM_MUTATOR_ONLY=1 \
+  AFL_SHUFFLE_QUEUE=1 \
+  AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so \
+  AFL_NO_AFFINITY=1 \
+  $HOME/AFLplusplus/afl-fuzz -m none -t 99000 \
+    -i input \
+    -o output -- \
+    python3 $HOME/droidbot/start.py -aa @@ -d emulator-5554 \
+    -policy bfs_greedy -count 100 -interval 2 \
+    -timeout 50 -o results/fdroid_run \
+    -is_emulator -grant_perm
+    
+
+env \
+  LD_LIBRARY_PATH=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android \
+  LD_PRELOAD=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android/libadb.so.0 \
+  AFL_SKIP_CPUFREQ=1 \
+  AFL_CUSTOM_MUTATOR_ONLY=1 \
+  AFL_SHUFFLE_QUEUE=1 \
+  AFL_CUSTOM_MUTATOR_LIBRARY=$HOME/ApkVulFuzz/build/cm-ApkVulFuzz.so \
+  AFL_NO_AFFINITY=1 \
+  $HOME/AFLplusplus/afl-fuzz -n -m none -t 99000 \
+        -i input \
+        -o output -- \
+        python3 $HOME/droidbot/start.py -aa @@ -d emulator-5554 \
+        -policy bfs_greedy -count 100 -interval 2 \
+        -timeout 50 -o results/fdroid_run \
+        -is_emulator -grant_perm
+
+
+env \
   LD_LIBRARY_PATH=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android \
   LD_PRELOAD=$HOME/adb-fuzz/instrumented_binaries/usr/lib/x86_64-linux-gnu/android/libadb.so.0 \
   AFL_SKIP_CPUFREQ=1 \
